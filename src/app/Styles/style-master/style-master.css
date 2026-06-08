@@ -1,0 +1,703 @@
+/* =============================================
+   STYLE MASTER — COMPLEX FORM
+   ============================================= */
+
+form.main-form-container,
+form {
+  min-height: 100vh;
+  background: var(--bg-base);
+  color: var(--text-primary);
+  padding: 28px;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.merged-card {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: var(--bg-card);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--r-xl);
+  padding: 30px;
+}
+
+.form-section { width: 100%; }
+
+.section-divider {
+  height: 1px;
+  background: var(--border-dim);
+  margin: 28px 0;
+}
+
+/* Header */
+.card-header, .metal-header, .diamond-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+
+.card-header h2, .metal-header h3, .diamond-header h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-white);
+  letter-spacing: -0.2px;
+}
+
+.card-header h2 span, .metal-header h3 span, .diamond-header h3 span {
+  color: var(--accent);
+}
+
+/* Form row */
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+/* Field */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.field label, .field > label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.field input,
+.field textarea,
+.field select,
+.field ng-select {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--r-md);
+  color: var(--text-primary);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  padding: 10px 13px;
+  outline: none;
+  transition: all var(--tr);
+  width: 100%;
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+  border-color: var(--accent);
+  background: var(--bg-card-alt);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+}
+
+.field input::placeholder,
+.field textarea::placeholder { color: var(--text-muted); }
+
+.field textarea { resize: vertical; min-height: 80px; }
+
+.field input.invalid-field,
+.field select.invalid-field {
+  border-color: var(--danger) !important;
+}
+
+/* Action buttons in header */
+.action-buttons { display: flex; gap: 8px; align-items: center; }
+
+.add-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--r-sm);
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: all var(--tr);
+}
+
+.add-btn:hover { background: var(--accent-hover); transform: translateY(-1px); }
+
+.cancel-btn {
+  padding: 7px 16px;
+  border-radius: var(--r-sm);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-mid);
+  color: var(--text-secondary);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--tr);
+}
+
+.cancel-btn:hover {
+  border-color: var(--border-bright);
+  color: var(--text-primary);
+}
+
+/* Image upload grid */
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.image-slot {
+  aspect-ratio: 1;
+  border-radius: var(--r-md);
+  border: 1px dashed var(--border-mid);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  background: var(--bg-surface);
+  overflow: hidden;
+  transition: all var(--tr);
+  position: relative;
+}
+
+.image-slot:hover {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.image-slot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--r-md);
+}
+
+.image-slot-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.image-slot .material-icons {
+  font-size: 24px;
+  color: var(--text-muted);
+}
+
+.image-remove-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(248,113,113,0.9);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  line-height: 1;
+}
+
+/* Table inside form (costing, BOM) */
+.inner-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+
+.inner-table th {
+  background: var(--bg-surface);
+  padding: 9px 12px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-dim);
+}
+
+.inner-table td {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--border-dim);
+  font-size: 13.5px;
+  color: var(--text-primary);
+  vertical-align: middle;
+}
+
+.inner-table td input,
+.inner-table td select {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--r-sm);
+  color: var(--text-primary);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  padding: 6px 10px;
+  outline: none;
+  width: 100%;
+  transition: border-color var(--tr);
+}
+
+.inner-table td input:focus,
+.inner-table td select:focus {
+  border-color: var(--accent);
+}
+
+.inner-table tbody tr:hover { background: var(--bg-hover); }
+
+/* Add row btn */
+.add-row-btn {
+  margin-top: 10px;
+  padding: 7px 16px;
+  border-radius: var(--r-sm);
+  background: transparent;
+  border: 1px dashed var(--border-mid);
+  color: var(--text-secondary);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all var(--tr);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.add-row-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+
+/* Save button */
+.save-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 28px;
+  border-radius: var(--r-md);
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--tr);
+  margin-top: 24px;
+}
+
+.save-btn:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 22px var(--accent-glow);
+}
+
+/* ng-select overrides */
+.ng-select .ng-control,
+.ng-select-container {
+  background: var(--bg-surface) !important;
+  border: 1px solid var(--border-dim) !important;
+  border-radius: var(--r-md) !important;
+  color: var(--text-primary) !important;
+  min-height: 40px !important;
+}
+
+.ng-select.ng-select-focused .ng-control,
+.ng-select.ng-select-focused .ng-select-container {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px var(--accent-dim) !important;
+}
+
+.ng-dropdown-panel {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-mid) !important;
+  border-radius: var(--r-sm) !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4) !important;
+}
+
+.ng-dropdown-panel .ng-option {
+  background: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  font-size: 13.5px !important;
+  padding: 8px 12px !important;
+}
+
+.ng-dropdown-panel .ng-option.ng-option-marked,
+.ng-dropdown-panel .ng-option:hover {
+  background: var(--bg-hover) !important;
+}
+
+.ng-dropdown-panel .ng-option.ng-option-selected {
+  background: var(--accent-dim) !important;
+  color: var(--accent) !important;
+}
+
+.ng-select .ng-placeholder { color: var(--text-muted) !important; }
+.ng-select .ng-value { color: var(--text-primary) !important; }
+
+/* Modal overrides (if any) */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-mid);
+  border-radius: var(--r-xl);
+  padding: 30px;
+  width: 100%;
+  max-width: 480px;
+}
+
+.modal-box h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-white);
+  margin-bottom: 20px;
+}
+
+@media (max-width: 640px) {
+  .form-row { grid-template-columns: 1fr; }
+  .merged-card { padding: 20px; }
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   2. METAL & DIAMOND TABLES FIX  (paste into style-master.css)
+   ═══════════════════════════════════════════════════════════ */
+
+/* --- Metal Table --- */
+.metal-table {
+  width: 100%;
+  margin-top: 8px;
+  border: 1px solid var(--border-dim);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+
+.table-head {
+  display: grid;
+  grid-template-columns: 48px 1fr 1fr 1fr;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-dim);
+  padding: 0;
+}
+
+.table-head > div {
+  padding: 10px 14px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: 48px 1fr 1fr 1fr;
+  align-items: center;
+  border-bottom: 1px solid var(--border-dim);
+  padding: 8px 0;
+  transition: background 0.15s ease;
+}
+
+.table-row:last-child {
+  border-bottom: none;
+}
+
+.table-row:hover {
+  background: var(--bg-hover);
+}
+
+.table-row .delete-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--r-sm);
+  background: rgba(248,113,113,0.1);
+  border: 1px solid rgba(248,113,113,0.2);
+  color: var(--danger);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  line-height: 1;
+  transition: background 0.15s ease;
+}
+
+.table-row .delete-btn:hover {
+  background: rgba(248,113,113,0.22);
+}
+
+.table-row .field-validation-wrapper {
+  padding: 0 10px;
+}
+
+.field-validation-wrapper {
+  position: relative;
+}
+
+.field-validation-wrapper .ng-select .ng-select-container {
+  min-height: 34px !important;
+  font-size: 13px !important;
+}
+
+.field-validation-wrapper input[type="number"] {
+  width: 100%;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--r-sm);
+  color: var(--text-primary);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px;
+  padding: 8px 11px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.field-validation-wrapper input[type="number"]:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+}
+
+.field-validation-wrapper input.invalid-field,
+.field-validation-wrapper .ng-select.invalid-field .ng-select-container {
+  border-color: var(--danger) !important;
+}
+
+.error-text {
+  display: block;
+  color: var(--danger);
+  font-size: 11px;
+  margin-top: 3px;
+}
+
+/* --- Diamond Table --- */
+.diamond-table {
+  width: 100%;
+  margin-top: 8px;
+  border: 1px solid var(--border-dim);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+
+.d-table-head {
+  display: grid;
+  grid-template-columns: 48px 1.4fr 1fr 1fr 1fr 1fr 80px 90px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-dim);
+}
+
+.d-table-head > div {
+  padding: 10px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  white-space: nowrap;
+}
+
+.d-table-row {
+  display: grid;
+  grid-template-columns: 48px 1.4fr 1fr 1fr 1fr 1fr 80px 90px;
+  align-items: center;
+  border-bottom: 1px solid var(--border-dim);
+  padding: 8px 0;
+  gap: 0;
+  transition: background 0.15s ease;
+}
+
+.d-table-row:last-child {
+  border-bottom: none;
+}
+
+.d-table-row:hover {
+  background: var(--bg-hover);
+}
+
+.d-table-row > ng-select,
+.d-table-row > .ng-select {
+  padding: 0 6px;
+}
+
+.d-table-row > .delete-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--r-sm);
+  background: rgba(248,113,113,0.1);
+  border: 1px solid rgba(248,113,113,0.2);
+  color: var(--danger);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  line-height: 1;
+  transition: background 0.15s ease;
+}
+
+.d-table-row > .delete-btn:hover {
+  background: rgba(248,113,113,0.22);
+}
+
+/* Number inputs inside diamond rows */
+.d-table-row > input[type="number"] {
+  width: calc(100% - 12px);
+  margin: 0 6px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--r-sm);
+  color: var(--text-primary);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  padding: 7px 9px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.d-table-row > input[type="number"]:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+}
+
+/* No diamond message */
+.no-diamond-message {
+  padding: 24px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 13.5px;
+  font-style: italic;
+}
+
+/* Save area */
+.save-area {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 28px;
+  padding-top: 22px;
+  border-top: 1px solid var(--border-dim);
+}
+
+.save-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 28px;
+  border-radius: var(--r-md);
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.save-btn:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 22px var(--accent-glow);
+}
+
+.save-btn.compact-btn {
+  padding: 9px 20px;
+  font-size: 13px;
+}
+
+/* Checkbox field */
+.checkbox-field {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 12px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--r-md);
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.checkbox-field:hover {
+  border-color: var(--border-bright);
+}
+
+.checkbox-field input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.checkbox-field span {
+  font-size: 13.5px;
+  color: var(--text-primary);
+}
+
+/* Modal overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 24px;
+}
+
+.metal-card.category-modal {
+  background: var(--bg-card);
+  border: 1px solid var(--border-mid);
+  border-radius: var(--r-xl);
+  padding: 30px;
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.inline-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.quick-group-adder {
+  margin-bottom: 8px;
+}
+
+.modal-second-row {
+  margin-top: 4px;
+}
+
+.compact-divider {
+  margin: 16px 0;
+}

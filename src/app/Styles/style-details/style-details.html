@@ -1,0 +1,142 @@
+<div class="details-container">
+
+    <!-- STYLE INFO -->
+
+    <div class="style-card">
+
+        <h2>Style Information</h2>
+
+        <div class="info-grid">
+
+            <div>
+                <label>Style Number</label>
+                <span>{{style.style_number}}</span>
+            </div>
+
+            <div>
+                <label>Category</label>
+                <span>{{style.category}}</span>
+            </div>
+
+            <div>
+                <label>Sub Category</label>
+                <span>{{style.sub_category}}</span>
+            </div>
+
+            <div>
+                <label>Gender</label>
+                <span>{{style.gender}}</span>
+            </div>
+
+            <div>
+                <label>Status</label>
+                <span>{{style.statuss == 1 ? 'Active' : 'Inactive'}}</span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- TWO TABLES -->
+
+    <div class="tables-wrapper">
+
+        <!-- METAL TABLE -->
+
+        <div class="detail-card">
+
+            <h3>Metal Details</h3>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Metal</th>
+
+                        <th>KT</th>
+
+                        <th>Weight</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr *ngFor="let metal of metals">
+
+                        <td>{{getParamLabel(metal.metal)}}</td>
+
+                        <td>{{getParamLabel(metal.kt)}}</td>
+
+                        <td>{{metal.weight}}</td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <!-- DIAMOND TABLE -->
+
+        <div class="detail-card">
+
+            <h3>Diamond Details</h3>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Type</th>
+
+                        <th>Shape</th>
+
+                        <th>Color</th>
+
+                        <th>Clarity</th>
+
+                        <th>Size</th>
+
+                        <th>Pcs</th>
+
+                        <th>Caret</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr *ngFor="let diamond of diamonds">
+
+                        <td>{{getParamLabel(diamond.diamondType)}}</td>
+
+                        <td>{{getParamLabel(diamond.shape)}}</td>
+
+                        <td>{{getParamLabel(diamond.color)}}</td>
+
+                        <td>{{getParamLabel(diamond.clarity)}}</td>
+                        
+                        <td>{{getParamLabel(diamond.size)}}    </td>
+
+                        <td>{{diamond.pcs}}</td>
+
+                        <td>{{diamond.caret}}</td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>

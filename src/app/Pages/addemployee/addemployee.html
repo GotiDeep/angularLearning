@@ -1,0 +1,247 @@
+<div class="page">
+  <form class="employee-form" [formGroup]="employeeForm" (ngSubmit)="saveEmployee()">
+    <!-- Header -->
+    <div class="form-header">
+      <h2>
+        {{ isEditMode ? 'Update Employee' : 'Add Employee' }}
+      </h2>
+
+      <a routerLink="/showdata" class="btn secondary"> Back </a>
+    </div>
+
+    <p *ngIf="loading" class="status">Loading employee...</p>
+
+    <!-- Grid -->
+    <div class="grid">
+      <!-- First Name -->
+      <label>
+        First Name
+
+        <input type="text" formControlName="firstname" />
+
+        <small
+          *ngIf="
+            employeeForm.get('firstname')?.errors?.['required'] &&
+            employeeForm.get('firstname')?.touched
+          "
+        >
+          First Name Required
+        </small>
+      </label>
+
+      <!-- Last Name -->
+      <label>
+        Last Name
+
+        <input type="text" formControlName="lastname" />
+
+        <small
+          *ngIf="
+            employeeForm.get('lastname')?.errors?.['required'] &&
+            employeeForm.get('lastname')?.touched
+          "
+        >
+          Last Name Required
+        </small>
+      </label>
+
+      <!-- Email -->
+      <label>
+        Email
+
+        <input type="email" formControlName="email" />
+
+        <!-- Required -->
+        <small
+          *ngIf="
+            employeeForm.get('email')?.errors?.['required'] && employeeForm.get('email')?.touched
+          "
+        >
+          Email is Required
+        </small>
+
+        <!-- Invalid Format -->
+        <small
+          *ngIf="
+            employeeForm.get('email')?.errors?.['pattern'] && employeeForm.get('email')?.touched
+          "
+        >
+          Invalid Email Format
+        </small>
+      </label>
+
+      <!-- Mobile -->
+      <label>
+        Mobile
+
+        <input type="text" formControlName="mobile" />
+
+        <small
+          *ngIf="
+            employeeForm.get('mobile')?.errors?.['required'] && employeeForm.get('mobile')?.touched
+          "
+        >
+          Mobile Number Required
+        </small>
+      </label>
+
+      <!-- Address -->
+      <label class="full">
+        Address
+
+        <textarea formControlName="address"></textarea>
+
+        <small
+          *ngIf="
+            employeeForm.get('address')?.errors?.['required'] &&
+            employeeForm.get('address')?.touched
+          "
+        >
+          Address Required
+        </small>
+      </label>
+
+      <!-- Country -->
+      <label>
+        Country
+
+        <select class="form-control" formControlName="country">
+          <option value="">Select Country</option>
+
+          <option value="India">India</option>
+
+          <option value="USA">USA</option>
+
+          <option value="Canada">Canada</option>
+        </select>
+
+        <small
+          *ngIf="
+            employeeForm.get('country')?.errors?.['required'] &&
+            employeeForm.get('country')?.touched
+          "
+        >
+          Country Required
+        </small>
+      </label>
+
+      <!-- State -->
+      <label>
+        State
+
+        <select class="form-control" formControlName="state">
+          <option value="">Select State</option>
+
+          <option value="Gujarat">Gujarat</option>
+
+          <option value="Maharastra">Maharastra</option>
+
+          <option value="Punjab">Punjab</option>
+        </select>
+
+        <small
+          *ngIf="
+            employeeForm.get('state')?.errors?.['required'] && employeeForm.get('state')?.touched
+          "
+        >
+          State Required
+        </small>
+      </label>
+    </div>
+
+    <!-- Gender -->
+    <div class="option-row">
+      <span>Gender</span>
+
+      <label>
+        <input type="radio" value="Male" formControlName="gender" />
+        Male
+      </label>
+
+      <label>
+        <input type="radio" value="Female" formControlName="gender" />
+        Female
+      </label>
+
+      <small
+        *ngIf="
+          employeeForm.get('gender')?.errors?.['required'] && employeeForm.get('gender')?.touched
+        "
+      >
+        Gender Required
+      </small>
+    </div>
+
+    <!-- Hobbies -->
+    <div class="option-row">
+      <span>Hobbies</span>
+
+      <label>
+        <input
+          type="checkbox"
+          value="Cricket"
+          [checked]="isHobbySelected('Cricket')"
+          (change)="onHobbyChange($event)"
+        />
+        Cricket
+      </label>
+
+      <label>
+        <input
+          type="checkbox"
+          value="Music"
+          [checked]="isHobbySelected('Music')"
+          (change)="onHobbyChange($event)"
+        />
+        Music
+      </label>
+
+      <label>
+        <input
+          type="checkbox"
+          value="Reading"
+          [checked]="isHobbySelected('Reading')"
+          (change)="onHobbyChange($event)"
+        />
+        Reading
+      </label>
+
+      <small
+        *ngIf="
+          employeeForm.get('hobbies')?.errors?.['required'] && employeeForm.get('hobbies')?.touched
+        "
+      >
+        Hobbies Required
+      </small>
+    </div>
+
+    <!-- File -->
+    <label class="file-field">
+      Profile Image
+
+      <input type="file" (change)="onFileChange($event)" />
+
+      <small *ngIf="employeeForm.get('image')?.value">
+        Selected:
+        {{ employeeForm.get('image')?.value }}
+      </small>
+
+      <small
+        *ngIf="
+          employeeForm.get('image')?.errors?.['required'] && employeeForm.get('image')?.touched
+        "
+      >
+        Image Required
+      </small>
+    </label>
+
+    <!-- Buttons -->
+    <div class="actions">
+      <button type="button" class="btn secondary" routerLink="/showdata">Cancel</button>
+
+      <button type="submit" class="btn primary">
+        {{ isEditMode ? 'Update Employee' : 'Add Employee' }}
+      </button>
+    </div>
+  </form>
+</div>

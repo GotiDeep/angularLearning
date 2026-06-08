@@ -1,0 +1,267 @@
+<div class="employee-container">
+
+  <!-- ================= HEADER ================= -->
+  <div class="top-bar">
+
+    <!-- LEFT: Title -->
+    <div class="title-section">
+      <div class="title-icon">
+        <i class="material-icons">badge</i>
+      </div>
+
+      <div>
+        <h1>Manage <span>Employees</span> ✦</h1>
+        <p>Create, view, update and delete employee records</p>
+      </div>
+    </div>
+
+    <!-- RIGHT: Actions -->
+    <div class="actions-area">
+
+      
+      <!-- Customers -->
+      <button (click)="showCustomers()" class="action-btn employee-btn">
+        <i class="material-icons">groups</i>
+        Customers
+      </button>
+
+      <button type="button" (click)="showStyles()" class="action-btn style-btn">
+        <i class="material-icons">style</i>
+        Styles
+      </button>
+
+      <button class="action-btn pdf-btn" (click)="printEmployees()">
+        <i class="material-icons">picture_as_pdf</i>
+        Print (PDF)
+      </button>
+
+      <!-- Import -->
+      <button (click)="importExcel()" class="action-btn import-btn">
+        <i class="material-icons">cloud_upload</i>
+        Import
+      </button>
+
+      <!-- Add Employee -->
+      <button routerLink="/addemployee" class="action-btn add-btn">
+        <i class="material-icons">person_add</i>
+        Add Employee
+      </button>
+
+      <!-- Logout -->
+      <button class="action-btn logout-btn" (click)="logout()">
+        <i class="material-icons">logout</i>
+        Logout
+      </button>
+
+    </div>
+  </div>
+
+  <!-- ================= MAIN CARD ================= -->
+  <div class="table-card">
+
+    <!-- TOP BAR -->
+    <div class="table-top">
+
+      <!-- Export Select -->
+      <div class="filter-wrapper">
+        <label>Export Employee By</label>
+
+        <select [(ngModel)]="selection" name="selection" class="custom-select">
+          <option value="">Select</option>
+          <option value="All">All</option>
+          <option value="Selected">Selected Only</option>
+          <option value="Non Selected">Non Selected Only</option>
+        </select>
+      </div>
+
+      <!-- Export -->
+      <button (click)="exportExcel()" class="action-btn export-btn">
+        <i class="material-icons">download</i>
+        Export
+      </button>
+
+      <!-- Search -->
+      <div class="search-box">
+        <i class="material-icons">search</i>
+        <input type="text" placeholder="Search employees..." />
+      </div>
+
+      <!-- Total -->
+      <div class="total-card">
+
+        <div class="total-icon">
+          <i class="material-icons">badge</i>
+        </div>
+
+        <div>
+          <span>Total Employees</span>
+          <h2>{{ employee?.length || 0 }}</h2>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ================= TABLE ================= -->
+    <div class="table-wrapper">
+
+      <table class="employee-table">
+
+        <!-- HEADER -->
+        <thead>
+          <tr>
+
+            <th>
+              <input type="checkbox" />
+            </th>
+
+            <th>ID</th>
+            <th>FIRST NAME</th>
+            <th>LAST NAME</th>
+            <th>EMAIL</th>
+            <th>MOBILE</th>
+            <th>ADDRESS</th>
+            <th>COUNTRY</th>
+            <th>STATE</th>
+            <th>GENDER</th>
+            <th>HOBBIES</th>
+            <th>PROFILE</th>
+            <th>ACTION</th>
+
+          </tr>
+        </thead>
+
+        <!-- BODY -->
+        <tbody>
+
+          <tr
+            *ngFor="let emp of employee"
+            [class.selected-row]="selectedEmployees.includes(emp.id)"
+          >
+
+            <!-- Checkbox -->
+            <td>
+              <input
+                type="checkbox"
+                [checked]="selectedEmployees.includes(emp.id)"
+                (change)="toggleSelection(emp.id)"
+              />
+            </td>
+
+            <!-- ID -->
+            <td class="employee-id">
+              {{ emp.id }}
+            </td>
+
+            <!-- First Name -->
+            <td>{{ emp.firstname }}</td>
+
+            <!-- Last Name -->
+            <td>{{ emp.lastname }}</td>
+
+            <!-- Email -->
+            <td>{{ emp.email }}</td>
+
+            <!-- Mobile -->
+            <td>{{ emp.mobile }}</td>
+
+            <!-- Address -->
+            <td>{{ emp.address }}</td>
+
+            <!-- Country -->
+            <td>{{ emp.country }}</td>
+
+            <!-- State -->
+            <td>{{ emp.state }}</td>
+
+            <!-- Gender -->
+            <td>{{ emp.gender }}</td>
+
+            <!-- Hobbies -->
+            <td>{{ emp.hobbies }}</td>
+
+            <!-- Profile -->
+            <td>
+
+              <div class="profile-img">
+                <img
+                  [src]="apiUrl + '/media/uploads/' + emp.image"
+                  [alt]="emp.firstname"
+                  onerror="this.style.display='none'; this.parentNode.innerHTML='<span class=\'material-icons\'>person</span>'"
+                />
+              </div>
+
+            </td>
+
+            <!-- Actions -->
+            <td>
+
+              <div class="table-action">
+                
+                <!-- Edit -->
+                <button
+                  class="edit-btn-row"
+                  (click)="editEmployee(emp)"
+                  title="Edit"
+                >
+                  <i class="material-icons">edit</i>
+                </button>
+
+                <!-- Delete -->
+                <button
+                  class="delete-btn-row"
+                  (click)="deleteEmployee(emp.id)"
+                  title="Delete"
+                >
+                  <i class="material-icons">delete</i></button> 
+
+                <button class="print-btn-row" (click)="employeeDetails(emp.id)" title="Print">
+                  <i class="material-icons">print</i> 
+                </button>
+
+              </div>
+
+            </td>
+
+          </tr>
+
+          <!-- EMPTY -->
+          <tr *ngIf="employee.length === 0">
+
+            <td colspan="13" class="empty">
+              No Employees Found
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="table-footer">
+
+      <p>
+        Showing 1 to {{ employee?.length || 0 }} entries
+      </p>
+
+      <div class="pagination">
+
+        <button>&lt;</button>
+
+        <button class="active">1</button>
+
+        <button>2</button>
+
+        <button>3</button>
+
+        <button>&gt;</button>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>

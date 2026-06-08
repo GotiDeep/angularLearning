@@ -1,0 +1,86 @@
+<div class="page">
+  <form class="customer-form" [formGroup]="customerForm" (ngSubmit)="saveCustomer()">
+    <!-- Header -->
+    <div class="form-header">
+      <h2>Add Customer</h2>
+
+      <a routerLink="/customers" class="btn secondary"> Back </a>
+    </div>
+
+    <!-- Grid -->
+    <div class="grid">
+      <!-- Customer id -->
+      <label>
+        Customer ID
+
+        <input type="text" formControlName="customerId" readonly/>
+        <small *ngIf="customerForm.get('customerId')?.errors?.['required'] && customerForm.get('customerId')?.touched">Id is required</small>
+      </label>
+
+      <!-- Customer Image -->
+      <label>
+        Customer Image
+
+        <input type="file" accept="image/*" (change)="onFileChange($event)" />
+        <small *ngIf="customerForm.get('customerImage')?.errors?.['required'] && customerForm.get('customerImage')?.touched">Image Is Required</small>
+        
+      </label>
+
+
+      <!-- Customer Name -->
+      <label>
+        Customer Name
+
+        <input type="text" formControlName="customerName" />
+        <small *ngIf="customerForm.get('customerName')?.errors?.['required'] && customerForm.get('customerName')?.touched">Name Is Required</small>
+        
+      </label>
+
+    <!-- Customer Email -->
+      <label>
+        Customer Email
+
+        <input type="text" formControlName="customerEmail"/>
+        <small *ngIf="customerForm.get('customerEmail')?.errors?.['required'] && customerForm.get('customerEmail')?.touched">Email is Required</small>
+        <small *ngIf="customerForm.get('customerEmail')?.errors?.['pattern']">Email is invalid</small> 
+      </label>
+
+    <!-- Customer Mobile -->
+      <label>
+        Customer Mobile No
+
+        <input type="text" formControlName="customerMobile" maxlength="10" minlength="10" />
+        <small *ngIf="customerForm.get('customerMobile')?.errors?.['required'] && customerForm.get('customerMobile')?.touched">Mobile Number is Required</small>
+        <small *ngIf="customerForm.get('customerMobile')?.errors?.['pattern']">Mobile No Is invalid</small>
+        <small *ngIf="customerForm.get('customerMobile')?.errors?.['minLength']">MiniMum Length For Mobile Number is 10</small> 
+      </label>
+    </div>
+
+    <!-- Customer DOB -->
+      <label>
+        Customer DOB
+
+        <input type="date" formControlName="customerDOB" />
+        <small *ngIf="customerForm.get('customerDOB')?.errors?.['required'] && customerForm.get('customerDOB')?.touched">DOB Is Required</small>
+        
+      </label>
+
+      <!-- Customer City -->
+      <label>
+        Customer City
+
+        <input type="text" formControlName="customerCity" />
+        <small *ngIf="customerForm.get('customerCity')?.errors?.['required'] && customerForm.get('customerCity')?.touched">City Is Required</small>
+        
+      </label>
+
+    <!-- Buttons -->
+    <div class="actions">
+      <button type="button" class="btn secondary" routerLink="/customers">Cancel</button>
+
+      <button type="submit" class="btn primary">
+                {{ isEditMode ? 'Update Employee' : 'Add Employee' }}
+              </button>
+    </div>
+  </form>
+</div>

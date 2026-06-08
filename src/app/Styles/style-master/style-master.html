@@ -1,0 +1,342 @@
+<form [formGroup]="styleForm" (ngSubmit)="SaveDetails()">
+  
+  <div class="main-form-container merged-card">
+
+    <div class="form-section">
+      <div class="card-header">
+        <h2>Details <span>*</span></h2>
+        <div class="action-buttons">
+        <button type="button" class="add-btn" (click)="showParameterModel()">+</button>
+        <button
+        type="button"
+        class="cancel-btn"
+        routerLink="/styleListing">
+
+        ✕ Cancel
+
+    </button>
+    </div>
+      </div>
+
+      <div class="form-row">
+        <div class="field">
+          <label>Style Number</label>
+          <input type="text" formControlName="styleNumber"
+            [ngClass]="{'invalid-field': styleForm.get('styleNumber')?.invalid && styleForm.get('styleNumber')?.touched}">
+        </div>
+
+        <div class="field">
+          <label>Category</label>
+          <ng-select 
+            [items]="categoriesList" 
+            formControlName="category" 
+            bindLabel="param_name"
+            [placeholder]="styleForm.get('category')?.value ? '' : 'Select Category'"
+            (change)="onMainCategoryChange($event)" 
+            [searchable]="true" 
+            [clearable]="true"
+            [ngClass]="{'invalid-field': styleForm.get('category')?.invalid && styleForm.get('category')?.touched}">
+          </ng-select>
+        </div>
+
+        <div class="field">
+          <label>Sub Category</label>
+          <ng-select 
+            formControlName="subCategory"  
+            [placeholder]="styleForm.get('subCategory')?.value ? '' : 'Select Sub Categories'"
+            [items]="subCategoriesList"
+            bindLabel="param_name"
+            [searchable]="true"
+            [clearable]="true"
+            [ngClass]="{'invalid-field': styleForm.get('subCategory')?.invalid && styleForm.get('subCategory')?.touched}">
+          </ng-select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="field">
+          <label>Gender</label>
+          <ng-select 
+            formControlName="gender" 
+            [placeholder]="styleForm.get('gender')?.value ? '' : 'Select Gender'"
+            [items]="genderList"
+            bindLabel="param_name" 
+            [searchable]="false" 
+            [clearable]="false"
+            [ngClass]="{'invalid-field': styleForm.get('gender')?.invalid && styleForm.get('gender')?.touched}">
+          </ng-select>
+        </div>
+
+        <div class="field">
+          <label>Product Title</label>
+          <input type="text" placeholder="Product Title" formControlName="productTitle"
+            [ngClass]="{'invalid-field': styleForm.get('productTitle')?.invalid && styleForm.get('styleNumber')?.touched}">
+        </div>
+
+        <div class="field">
+          <label>Product Description</label>
+          <textarea cols="50" rows="3" placeholder="Enter Description" formControlName="productDescription"></textarea>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="field">
+          <label>Status</label>
+          <div class="checkbox-field">
+            <input type="checkbox" formControlName="status">
+            <span>Active</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="form-section">
+      <div class="metal-header">
+        <h3>Metal Details <span>*</span></h3>
+        <button type="button" class="add-btn" id="add-row-btn" (click)="addNewRow()">+</button>
+      </div>
+
+      <div class="metal-table">
+        <div class="table-head">
+          <div>Action</div>
+          <div>Metal</div>
+          <div>Metal KT</div>
+          <div>Weight (gm)</div>
+        </div>
+
+        <div class="table-row" *ngFor="let row of metalRows; let i = index">
+          <button class="delete-btn" type="button" (click)="deleteRow(i)">×</button>
+
+          <div class="field-validation-wrapper">
+            <ng-select
+              [(ngModel)]="row.metal"
+              [items]="metalList"
+              bindLabel="param_name"
+              bindValue="param_id"
+              [ngModelOptions]="{standalone: true}" 
+              placeholder="{{ row.metal ? '' : 'Select Metal' }}"
+              [searchable]="false" 
+              [clearable]="false"
+              required
+              appendTo="body"
+              #metalRef="ngModel"
+              [ngClass]="{'invalid-field': metalRef.invalid && (metalRef.touched || styleForm.touched)}">
+            </ng-select>
+            <span *ngIf="metalRef.invalid && (metalRef.touched || styleForm.touched)" class="error-text"></span>
+          </div>
+
+          <div class="field-validation-wrapper">
+            <ng-select
+              [(ngModel)]="row.kt" 
+              [items]="metalKTList"
+              bindLabel="param_name"
+              bindValue="param_id"
+              [ngModelOptions]="{standalone: true}" 
+              placeholder="{{ row.kt ? '' : 'Select Metal KT' }}"
+              [searchable]="false" 
+              [clearable]="false"
+              required
+              appendTo="body"
+              #ktRef="ngModel"
+              [ngClass]="{'invalid-field': ktRef.invalid && (ktRef.touched || styleForm.touched)}">
+            </ng-select>
+            <span *ngIf="ktRef.invalid && (ktRef.touched || styleForm.touched)" class="error-text"></span>
+          </div>
+
+          <div class="field-validation-wrapper">
+            <input type="number" placeholder="0" [(ngModel)]="row.weight" [ngModelOptions]="{standalone: true}"
+              required
+              #weightRef="ngModel"
+              [ngClass]="{'invalid-field': weightRef.invalid && (weightRef.touched || styleForm.touched)}">
+            <span *ngIf="weightRef.invalid && (weightRef.touched || styleForm.touched)" class="error-text"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="form-section">
+      <div class="diamond-header">
+        <h3>Diamond Details</h3>
+        <button type="button" class="add-btn" id="add-row-btn" (click)="addDiamondRow()">+</button>
+      </div>
+
+      <div class="diamond-table">
+        <div class="d-table-head">
+          <div>Action</div>
+          <div>Diamond Type</div>
+          <div>Shape</div>
+          <div>Color</div>
+          <div>Clarity</div>
+          <div>Size</div>
+          <div>Pcs</div>
+          <div>Caret</div>
+        </div>
+
+        <div *ngIf="addDiamondRows.length === 0" class="no-diamond-message">
+          <p>✨ Ok, you want it without diamond...</p>
+        </div>
+
+        <div class="d-table-row" *ngFor="let row of addDiamondRows; let i = index">
+          <button class="delete-btn" type="button" (click)="deleteDiamondRow(i)">×</button>
+
+          <ng-select 
+            [(ngModel)]="row.diamondType" 
+            [ngModelOptions]="{standalone: true}"
+            bindLabel="param_name" 
+            bindValue="param_id"
+            placeholder="{{ row.diamondType ? '' : 'Select Diamond' }}"
+            [searchable]="false"
+            appendTo="body" 
+            [clearable]="true">
+            
+            <ng-option *ngFor="let type of diamondTypeList" 
+                      [value]="type.param_id"
+                      [disabled]="type.param_code === 'CENTER_DIAMOND' && isCenterDiamondSelected() && +row.diamondType !== +type.param_id">
+              {{ type.param_name }}
+            </ng-option>
+
+          </ng-select>
+
+          <ng-select 
+            [(ngModel)]="row.shape"
+            [items]="diamondShapeList"
+            bindLabel="param_name"
+            bindValue="param_id"
+            [ngModelOptions]="{standalone: true}" 
+            placeholder="{{ row.shape ? '' : 'Select Shape' }}"
+            [searchable]="false"
+            appendTo="body" 
+            [clearable]="false">
+          </ng-select>
+
+          <ng-select 
+            [(ngModel)]="row.color" 
+            [ngModelOptions]="{standalone: true}" 
+            [items]="diamondColorList"
+            bindLabel="param_name"
+            bindValue="param_id"
+            placeholder="{{ row.color ? '' : 'Select Color' }}"
+            [searchable]="false" 
+            appendTo="body" 
+            [clearable]="false">
+          </ng-select>
+
+          <ng-select 
+            [(ngModel)]="row.clarity" 
+            [ngModelOptions]="{standalone: true}"
+            [items]="diamondClarityList"
+            bindLabel="param_name" 
+            bindValue="param_id"
+            placeholder="{{ row.clarity ? '' : 'Select Clarity' }}"
+            [searchable]="false" 
+            appendTo="body" 
+            [clearable]="false">
+          </ng-select>
+
+          <ng-select 
+            [(ngModel)]="row.size" 
+            [ngModelOptions]="{standalone: true}"
+            [items]="diamondSizeList"
+            bindLabel="param_name" 
+            bindValue="param_id"
+            placeholder="{{ row.size ? '' : 'Select Size' }}"
+            [searchable]="false" 
+            appendTo="body" 
+            [clearable]="false">
+          </ng-select>
+
+          <input type="number" placeholder="0" [(ngModel)]="row.pcs" [ngModelOptions]="{standalone: true}" >
+          <input type="number" placeholder="0" [(ngModel)]="row.caret" [ngModelOptions]="{standalone: true}">
+        </div>
+      </div>
+
+      <div class="save-area">
+        <button type="submit" class="save-btn">Save Entire Style</button>
+      </div>
+    </div>
+  </div> 
+</form> 
+
+
+<div class="modal-overlay" *ngIf="showParameterModal">
+  <div class="metal-card category-modal">
+    
+    <div class="card-header">
+      <h2>Add New Master Parameter <span>*</span></h2>
+      <button type="button" class="add-btn" (click)="showParameterModal = false">×</button>
+    </div>
+
+    <form [formGroup]="addParameterForm" (ngSubmit)="createNewParameter()">
+      <div class="quick-group-adder">
+        <div class="field">
+          <label>Can't find Type? Create New Parameter Type Group</label>
+          <div class="inline-input-group">
+            <input type="text" placeholder="Enter new type name (e.g., Stone Type, Size Group)"
+              formControlName="newType"
+              [ngClass]="{'invalid-field': addParameterForm.get('newType')?.invalid && addParameterForm.get('newType')?.touched}">
+            <br /><br /><button type="submit" class="save-btn compact-btn">+ Add Type</button>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div class="section-divider compact-divider"></div>
+
+    <form [formGroup]="ParamForm2" (ngSubmit)="saveParent()">
+      
+      <div class="form-row">
+        <div class="field">
+          <label>Select Parameter Type</label>
+          <ng-select 
+            formControlName="typeKey" 
+            [items]="parameterTypes" 
+            bindLabel="param_name" 
+            placeholder="Select Type" 
+            [searchable]="true" 
+            [clearable]="false" 
+            (change)="onTypeChange($event)"
+            [ngClass]="{'invalid-field': ParamForm2.get('typeKey')?.invalid && ParamForm2.get('typeKey')?.touched}">
+          </ng-select>
+        </div>
+
+        <div class="field">
+          <label>Parameter Display Label</label>
+          <input type="text" placeholder="e.g., Platinum, 22 KT, Round" formControlName="itemLabel"
+            [ngClass]="{'invalid-field': ParamForm2.get('itemLabel')?.invalid && ParamForm2.get('itemLabel')?.touched}">
+        </div>
+      </div>
+
+      <div class="form-row modal-second-row">
+        <div class="field">
+          <label>Parent Parameter (Optional)</label>
+          <ng-select 
+            formControlName="parentId" 
+            [items]="paramTypes" 
+            bindLabel="param_name"
+            bindValue="param_id" 
+            placeholder="Select Parent if any" 
+            [searchable]="true" 
+            [clearable]="true">
+          </ng-select>
+        </div>
+
+        <div class="field justify-content-end">
+          <label>Status</label>
+          <div class="checkbox-field">
+            <input type="checkbox" formControlName="isActive">
+            <span>Is Active Option</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="save-area">
+        <button type="submit" class="save-btn">Save Parameter</button>
+      </div>
+
+    </form> 
+  </div>
+</div>

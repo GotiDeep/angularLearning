@@ -1,0 +1,195 @@
+<div class="customer-container">
+
+  <!-- ================= HEADER ================= -->
+  <div class="top-bar">
+
+    <!-- LEFT: Title -->
+    <div class="title-section">
+      <div class="title-icon">
+        <i class="material-icons">groups</i>
+      </div>
+      <div>
+        <h1>Manage <span>Customers</span> ✦</h1>
+        <p>Create, view, update and delete customer records</p>
+      </div>
+    </div>
+
+    <!-- RIGHT: Actions -->
+    <div class="actions-area">
+
+      <button routerLink="/showdata" class="action-btn employee-btn">
+        <i class="material-icons">badge</i>
+        Employees
+      </button>
+
+      <button routerLink="/styleListing" class="action-btn style-btn">
+        <i class="material-icons">style</i>
+        Styles
+      </button>
+
+      <button class="action-btn pdf-btn" (click)="printCustomers()">
+        <i class="material-icons">picture_as_pdf</i>
+        Print (PDF)
+      </button>
+
+      <button (click)="importExcel()" class="action-btn import-btn">
+        <i class="material-icons">cloud_upload</i>
+        Upload
+      </button>
+
+      <button (click)="addCustomers()" class="action-btn add-btn">
+        <i class="material-icons">add</i>
+        Add Customer
+      </button>
+
+      <button class="action-btn logout-btn" (click)="logout()">
+        <i class="material-icons">logout</i>
+        Logout
+      </button>
+
+    </div>
+  </div>
+
+  <!-- ================= MAIN CARD ================= -->
+  <div class="table-card">
+
+    <!-- TOP FILTER BAR -->
+    <div class="table-top">
+
+      <!-- Filter -->
+      <div class="filter-wrapper">
+        <label>Export Customer By</label>
+        <select [(ngModel)]="selection" name="selection" class="custom-select">
+          <option value="">Select</option>
+          <option value="All">All</option>
+          <option value="Selected">Selected Only</option>
+          <option value="Non Selected">Non Selected Only</option>
+        </select>
+      </div>
+
+      <button (click)="exportExcel()" class="action-btn export-btn">
+        <i class="material-icons">download</i>
+        Export
+      </button>
+
+      <!-- Search -->
+      <div class="search-box">
+        <i class="material-icons">search</i>
+        <input type="text" placeholder="Search customers..." />
+      </div>
+
+      <!-- Total Customers -->
+      <div class="total-card">
+        <div class="total-icon">
+          <i class="material-icons">groups</i>
+        </div>
+        <div>
+          <span>Total Customers</span>
+          <h2>{{ customers?.length || 0 }}</h2>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ================= TABLE ================= -->
+    <div class="table-wrapper">
+      <table class="customer-table">
+
+        <!-- HEADER -->
+        <thead>
+          <tr>
+            <th><input type="checkbox" /></th>
+            <th>CUSTOMER ID</th>
+            <th>IMAGE</th>
+            <th>FULL NAME</th>
+            <th>EMAIL</th>
+            <th>MOBILE</th>
+            <th>DATE OF BIRTH</th>
+            <th>CITY</th>
+            <th>ACTION</th>
+          </tr>
+        </thead>
+
+        <!-- BODY -->
+        <tbody>
+          <tr
+            *ngFor="let customer of customers || []"
+            [class.selected-row]="selectedCustomers.includes(customer.customerId)"
+          >
+            <!-- Checkbox -->
+            <td>
+              <input
+                type="checkbox"
+                [checked]="selectedCustomers.includes(customer.customerId)"
+                (change)="toggleSelection(customer.customerId)"
+              />
+            </td>
+
+            <!-- ID -->
+            <td class="customer-id">{{ customer.customerId }}</td>
+
+            <!-- Image -->
+            <td>
+              <div class="profile-img">
+                <img
+                  [src]="apiUrl + '/media/uploads/' + customer.customerImage"
+                  [alt]="customer.customerName"
+                  onerror="this.style.display='none'; this.parentNode.innerHTML='<span class=\'material-icons\'>person</span>'"
+                />
+              </div>
+            </td>
+
+            <!-- Name -->
+            <td>{{ customer.customerName }}</td>
+
+            <!-- Email -->
+            <td>{{ customer.customerEmail }}</td>
+
+            <!-- Mobile -->
+            <td>{{ customer.customerMobile }}</td>
+
+            <!-- DOB -->
+            <td>{{ customer.customerDOB | date: 'yyyy-MM-dd' }}</td>
+
+            <!-- City -->
+            <td>{{ customer.customerCity }}</td>
+
+            <!-- Actions -->
+            <td>
+              <div class="table-action">
+                <button class="edit-btn-row" (click)="editCustomer(customer.customerId)" title="Edit">
+                  <i class="material-icons">edit</i>
+                </button>
+                <button class="delete-btn-row" (click)="deleteCustomer(customer.customerId)" title="Delete">
+                  <i class="material-icons">delete</i>
+                </button>
+                <button class="print-btn-row" (click)="CustomerDetails(customer.customerId)" title="Print">
+                  <i class="material-icons">print</i>
+                </button>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Empty State -->
+          <tr *ngIf="customers?.length === 0">
+            <td colspan="9" class="empty">No Customers Found</td>
+          </tr>
+        </tbody>
+
+      </table>
+    </div>
+
+    <!-- FOOTER / PAGINATION -->
+    <div class="table-footer">
+      <p>Showing 1 to {{ customers?.length || 0 }} entries</p>
+      <div class="pagination">
+        <button>&lt;</button>
+        <button class="active">1</button>
+        <button>2</button>
+        <button>3</button>
+        <button>&gt;</button>
+      </div>
+    </div>
+
+  </div>
+</div>

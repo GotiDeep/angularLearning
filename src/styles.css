@@ -1,1 +1,442 @@
-/* You can add global styles to this file, and also import other style files */
+/* =====================================================
+   GLOBAL DESIGN SYSTEM — CRUD App
+   Font: DM Sans + DM Mono
+   Palette: Dark Slate + Indigo accent
+   ===================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+:root {
+  /* Backgrounds */
+  --bg-base:      #0e1117;
+  --bg-surface:   #161b27;
+  --bg-card:      #1c2333;
+  --bg-card-alt:  #1f2840;
+  --bg-hover:     #232d42;
+
+  /* Borders */
+  --border-dim:   rgba(255,255,255,0.07);
+  --border-mid:   rgba(255,255,255,0.13);
+  --border-bright:rgba(255,255,255,0.22);
+
+  /* Text */
+  --text-primary:  #e8edf5;
+  --text-secondary:#8b95ab;
+  --text-muted:    #4e5870;
+  --text-white:    #ffffff;
+
+  /* Accent – Indigo */
+  --accent:        #6c63ff;
+  --accent-hover:  #7d75ff;
+  --accent-dim:    rgba(108,99,255,0.15);
+  --accent-glow:   rgba(108,99,255,0.30);
+
+  /* Status */
+  --success:       #34d399;
+  --warning:       #fbbf24;
+  --danger:        #f87171;
+  --info:          #60a5fa;
+
+  /* Radius */
+  --r-sm:  6px;
+  --r-md:  10px;
+  --r-lg:  14px;
+  --r-xl:  20px;
+
+  /* Transitions */
+  --tr: 0.2s ease;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+a { color: var(--accent); text-decoration: none; transition: color var(--tr); }
+a:hover { color: var(--accent-hover); }
+
+/* ---- Scrollbar ---- */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-surface); }
+::-webkit-scrollbar-thumb { background: #2e3a52; border-radius: 3px; }
+
+/* ---- Material Icons fix ---- */
+.material-icons { font-size: 20px; vertical-align: middle; line-height: 1; }
+
+/* The ng-select wrapper itself */
+.ng-select {
+  min-width: 160px;
+}
+
+/* The visible input/control box */
+.ng-select .ng-select-container {
+  background: var(--bg-surface) !important;
+  border: 1px solid var(--border-mid) !important;
+  border-radius: var(--r-md) !important;
+  color: var(--text-primary) !important;
+  min-height: 38px !important;
+  cursor: pointer !important;
+  box-shadow: none !important;
+}
+
+.ng-select:hover .ng-select-container {
+  border-color: var(--border-bright) !important;
+}
+
+.ng-select.ng-select-focused .ng-select-container {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px var(--accent-dim) !important;
+  outline: none !important;
+}
+
+/* Placeholder text */
+.ng-select .ng-placeholder {
+  color: var(--text-muted) !important;
+  font-size: 13.5px !important;
+}
+
+/* Selected value text */
+.ng-select .ng-value-label,
+.ng-select .ng-value {
+  color: var(--text-primary) !important;
+  font-size: 13.5px !important;
+}
+
+/* Multi-select pills/tags */
+.ng-select.ng-select-multiple .ng-value-container .ng-value {
+  background: var(--accent-dim) !important;
+  border: 1px solid rgba(108,99,255,0.3) !important;
+  border-radius: 4px !important;
+  padding: 2px 6px !important;
+}
+
+.ng-select.ng-select-multiple .ng-value-container .ng-value .ng-value-label {
+  color: var(--accent) !important;
+  font-size: 12px !important;
+}
+
+.ng-select.ng-select-multiple .ng-value-container .ng-value .ng-value-icon {
+  color: var(--accent) !important;
+  border-right: 1px solid rgba(108,99,255,0.3) !important;
+}
+
+.ng-select.ng-select-multiple .ng-value-container .ng-value .ng-value-icon:hover {
+  background: rgba(108,99,255,0.25) !important;
+}
+
+/* Arrow icon */
+.ng-select .ng-arrow-wrapper {
+  padding-right: 10px !important;
+}
+
+.ng-select .ng-arrow-wrapper .ng-arrow {
+  border-color: var(--text-muted) transparent transparent !important;
+  border-width: 5px 4px 2px !important;
+}
+
+.ng-select.ng-select-opened .ng-arrow-wrapper .ng-arrow {
+  border-color: transparent transparent var(--accent) !important;
+  border-width: 2px 4px 5px !important;
+}
+
+/* Clear button */
+.ng-select .ng-clear-wrapper {
+  color: var(--text-muted) !important;
+}
+
+.ng-select .ng-clear-wrapper:hover .ng-clear {
+  color: var(--danger) !important;
+}
+
+/* THE DROPDOWN PANEL */
+.ng-dropdown-panel {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-mid) !important;
+  border-radius: var(--r-md) !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5) !important;
+  margin-top: 4px !important;
+  z-index: 9999 !important;
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items {
+  max-height: 240px !important;
+}
+
+/* Search input inside dropdown */
+.ng-dropdown-panel .ng-input input {
+  background: var(--bg-surface) !important;
+  border: none !important;
+  border-bottom: 1px solid var(--border-dim) !important;
+  color: var(--text-primary) !important;
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 13px !important;
+  padding: 8px 12px !important;
+  outline: none !important;
+  width: 100% !important;
+}
+
+.ng-dropdown-panel .ng-input input::placeholder {
+  color: var(--text-muted) !important;
+}
+
+/* Each option row */
+.ng-dropdown-panel .ng-option {
+  background: transparent !important;
+  color: var(--text-primary) !important;
+  font-size: 13.5px !important;
+  padding: 9px 14px !important;
+  cursor: pointer !important;
+  transition: background 0.15s ease !important;
+  border-bottom: 1px solid var(--border-dim) !important;
+}
+
+.ng-dropdown-panel .ng-option:last-child {
+  border-bottom: none !important;
+}
+
+/* Hover state */
+.ng-dropdown-panel .ng-option.ng-option-marked {
+  background: var(--bg-hover) !important;
+  color: var(--text-white) !important;
+}
+
+/* Selected state */
+.ng-dropdown-panel .ng-option.ng-option-selected {
+  background: var(--accent-dim) !important;
+  color: var(--accent) !important;
+  font-weight: 500 !important;
+}
+
+.ng-dropdown-panel .ng-option.ng-option-selected.ng-option-marked {
+  background: rgba(108,99,255,0.22) !important;
+}
+
+/* Disabled option */
+.ng-dropdown-panel .ng-option.ng-option-disabled {
+  color: var(--text-muted) !important;
+  cursor: not-allowed !important;
+}
+
+/* No results text */
+.ng-dropdown-panel .ng-option.ng-option-child {
+  padding-left: 28px !important;
+}
+
+.ng-select .ng-has-value .ng-placeholder {
+  display: none !important;
+}
+
+/* Checkmark for selected in multi-select */
+.ng-dropdown-panel .ng-option.ng-option-selected::before {
+  content: '✓';
+  color: var(--accent);
+  margin-right: 8px;
+  font-size: 12px;
+}
+
+/* filter-wrapper — make ng-select fill it properly */
+.filter-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 180px;
+}
+
+.filter-wrapper label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+}
+
+/* Status badge in table */
+.status-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.status-badge.active {
+  background: rgba(52,211,153,0.12);
+  color: var(--success);
+  border: 1px solid rgba(52,211,153,0.2);
+}
+
+.status-badge.inactive {
+  background: rgba(248,113,113,0.1);
+  color: var(--danger);
+  border: 1px solid rgba(248,113,113,0.18);
+}
+
+/* =============================================================
+   1. TOAST NOTIFICATIONS FIX  →  paste in src/styles.css
+   ============================================================= */
+
+#toast-container {
+  position: fixed !important;
+  z-index: 99999 !important;
+}
+
+/* Position — top right */
+#toast-container.toast-top-right {
+  top: 20px !important;
+  right: 20px !important;
+}
+
+/* Each toast box */
+#toast-container > .ngx-toastr,
+#toast-container > div {
+  position: relative !important;
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 12px !important;
+  width: 320px !important;
+  padding: 14px 16px 14px 14px !important;
+  margin-bottom: 10px !important;
+  border-radius: 10px !important;
+  border: 1px solid transparent !important;
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 13.5px !important;
+  line-height: 1.5 !important;
+  cursor: pointer !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.45) !important;
+  opacity: 1 !important;
+  background-image: none !important;
+  pointer-events: auto !important;
+}
+
+/* Toast title */
+#toast-container .toast-title {
+  font-weight: 700 !important;
+  font-size: 13.5px !important;
+  margin-bottom: 3px !important;
+  display: block !important;
+}
+
+/* Toast message */
+#toast-container .toast-message {
+  font-size: 13px !important;
+  opacity: 0.88 !important;
+  display: block !important;
+}
+
+/* Close button */
+#toast-container .toast-close-button {
+  position: absolute !important;
+  top: 10px !important;
+  right: 12px !important;
+  font-size: 18px !important;
+  line-height: 1 !important;
+  background: none !important;
+  border: none !important;
+  cursor: pointer !important;
+  opacity: 0.6 !important;
+  color: inherit !important;
+}
+
+#toast-container .toast-close-button:hover {
+  opacity: 1 !important;
+}
+
+/* ── SUCCESS ── */
+#toast-container .toast-success {
+  background-color: rgba(20, 40, 32, 0.96) !important;
+  border-color: rgba(52, 211, 153, 0.35) !important;
+  color: #6ee7b7 !important;
+}
+
+/* ── ERROR ── */
+#toast-container .toast-error {
+  background-color: rgba(40, 18, 18, 0.96) !important;
+  border-color: rgba(248, 113, 113, 0.35) !important;
+  color: #fca5a5 !important;
+}
+
+/* ── WARNING ── */
+#toast-container .toast-warning {
+  background-color: rgba(40, 32, 10, 0.96) !important;
+  border-color: rgba(251, 191, 36, 0.35) !important;
+  color: #fcd34d !important;
+}
+
+/* ── INFO ── */
+#toast-container .toast-info {
+  background-color: rgba(15, 28, 50, 0.96) !important;
+  border-color: rgba(96, 165, 250, 0.35) !important;
+  color: #93c5fd !important;
+}
+
+/* Progress bar at bottom */
+#toast-container .toast-progress {
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  height: 3px !important;
+  border-radius: 0 0 10px 10px !important;
+  opacity: 0.7 !important;
+}
+
+#toast-container .toast-success .toast-progress { background: #34d399 !important; }
+#toast-container .toast-error   .toast-progress { background: #f87171 !important; }
+#toast-container .toast-warning .toast-progress { background: #fbbf24 !important; }
+#toast-container .toast-info    .toast-progress { background: #60a5fa !important; }
+
+
+/* =============================================================
+   2. NG-SELECT DROPDOWN TEXT FIX  →  paste in src/styles.css
+   Fix: text center ho gaya tha, left align karo
+   ============================================================= */
+
+.ng-select .ng-select-container .ng-value-container {
+  align-items: center !important;
+  padding-left: 10px !important;
+}
+
+.ng-select .ng-select-container .ng-value-container .ng-input {
+  padding-left: 10px !important;
+}
+
+.ng-select .ng-select-container .ng-value-container .ng-placeholder {
+  top: unset !important;
+  position: relative !important;
+  padding-left: 0 !important;
+  line-height: normal !important;
+}
+
+.ng-select .ng-value-label {
+  text-align: left !important;
+  line-height: normal !important;
+  vertical-align: middle !important;
+}
+
+/* Selected value should not go to corner */
+.ng-select.ng-select-single .ng-select-container .ng-value-container .ng-value {
+  display: flex !important;
+  align-items: center !important;
+  width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  line-height: normal !important;
+}
+
+/* Dropdown options text alignment */
+.ng-dropdown-panel .ng-option {
+  text-align: left !important;
+  display: flex !important;
+  align-items: center !important;
+}

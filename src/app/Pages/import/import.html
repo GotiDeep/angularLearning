@@ -1,0 +1,41 @@
+<div class="import-page">
+  <div class="import-card">
+    <!-- HEADER -->
+
+    <div class="import-header">
+      <h2>Import Employees</h2>
+
+      <a routerLink="/showdata" class="btn secondary"> Back </a>
+    </div>
+
+    <!-- FORM -->
+
+    <form (ngSubmit)="importExcel()">
+      <!-- FILE UPLOAD -->
+
+      <div class="upload-box">
+        <input type="file" id="excelFile" (change)="onFileChanged($event)" hidden />
+
+        <label for="excelFile" class="upload-label">
+          <div class="upload-icon">⬆</div>
+
+          <h3>Upload Excel File</h3>
+
+          <p>Choose .xlsx or .xls file</p>
+        </label>
+      </div>
+
+      <!-- FILE NAME -->
+
+      <div class="file-info">{{fileName}}</div>
+
+      <!-- ACTION BUTTONS -->
+
+      <div class="actions">
+        <button type="button" class="btn secondary">Cancel</button>
+
+        <button (click)="importExcel()" type="button" class="btn primary">Import Data</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,126 @@
+<div class="import-page">
+  <div class="import-card">
+    <!-- HEADER -->
+
+    <div class="import-header">
+      <h2>Import Styles</h2>
+
+      <a routerLink="/styleListing" class="btn secondary"> Back </a>
+    </div>
+
+    <!-- FORM -->
+
+    <form>
+      <!-- FILE UPLOAD -->
+
+      <div class="upload-box">
+        <input type="file" id="excelFile" (change)="onFileChanged($event)" hidden />
+
+        <label for="excelFile" class="upload-label">
+          <div class="upload-icon">⬆</div>
+
+          <h3>Upload Excel File</h3>
+
+          <p>Choose .xlsx or .xls file</p>
+        </label>
+      </div>
+
+      <!-- FILE NAME -->
+
+      <div class="file-info">{{fileName}}</div>
+
+      <!-- ACTION BUTTONS -->
+
+      <div class="actions">
+        <button type="button" routerLink="/customers" class="btn secondary">Cancel</button>
+
+        <button (click)="importExcel()" type="button" class="btn primary">Import Data</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="preview-modal-backdrop" *ngIf="showPreviewModal">
+  <div class="preview-modal">
+    <div class="preview-header">
+      <h2>Import Preview</h2>
+
+      <button type="button" class="close-btn" (click)="closePreviewModal()">×</button>
+    </div>
+
+    <div class="preview-summary">
+      <div>Total Rows: {{ totalRows }}</div>
+      <div>Valid Rows: {{ validRows }}</div>
+      <div>Warnings : {{ warnRows }}</div>
+      <div>Errors: {{ errorRows }}</div>
+    </div>
+
+    <div class="preview-table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Row</th>
+            <th>StyleNumber</th>
+            <th>Category</th>
+            <th>SubCategory</th>
+            <th>Gender</th>
+            <th>Product Title</th>
+            <th>Product Description</th>
+            <th>Status</th>
+            <th>MaterialType</th>
+            <th>MetalType</th>
+            <th>MetalKt</th>
+            <th>MetalWeight</th>
+            <th>DiamondType</th>
+            <th>DiamondShape</th>
+            <th>DiamondColor</th>
+            <th>DiamondClarity</th>
+            <th>DiamondSize</th>
+            <th>DiamondPcs</th>
+            <th>DiamondCaret</th>
+            <th>Warnings</th>
+            <th>Error Name</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let row of previewRows" [class.error-row]="row.errorName">
+            <td>{{ row.rowNumber }}</td>
+            <td>{{ row.StyleNumber }}</td>
+            <td>{{ row.Category }}</td>
+            <td>{{ row.SubCategory }}</td>
+            <td>{{ row.Gender }}</td>
+            <td>{{ row.ProductTitle }}</td>
+            <td>{{ row.ProductDescription }}</td>
+            <td>{{ row.Status }}</td>
+            <td>{{ row.MaterialType }}</td>
+            <td>{{ row.MetalType }}</td>
+            <td>{{ row.MetalKt }}</td>
+            <td>{{ row.MetalWeight }}</td>
+            <td>{{ row.DiamondType }}</td>
+            <td>{{ row.DiamondShape }}</td>
+            <td>{{ row.DiamondColor }}</td>
+            <td>{{ row.DiamondClarity }}</td>
+            <td>{{ row.DiamondSize }}</td>
+            <td>{{ row.DiamondPcs }}</td>
+            <td>{{ row.DiamondCaret }}</td>
+            <td>{{ row.warningName || '-' }}</td>
+            <td>{{ row.errorName || 'Valid' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="preview-actions">
+      <button type="button" class="btn secondary" (click)="closePreviewModal()">Cancel</button>
+
+      <button
+        type="button"
+        class="btn primary"
+        [disabled]="errorRows > 0"
+        (click)="confirmImport()">
+        Confirm Import
+      </button>
+    </div>
+  </div>
+</div>

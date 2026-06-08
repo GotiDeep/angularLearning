@@ -1,0 +1,131 @@
+/* =============================================
+   IMPORT PAGE (EXCEL UPLOAD)
+   ============================================= */
+
+.import-page {
+  min-height: 100vh;
+  background: var(--bg-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px;
+}
+
+.import-card {
+  width: 100%;
+  max-width: 520px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--r-xl);
+  padding: 40px;
+}
+
+.import-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.import-header h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-white);
+  letter-spacing: -0.3px;
+}
+
+/* Upload box */
+.upload-box {
+  background: var(--bg-surface);
+  border: 2px dashed var(--border-mid);
+  border-radius: var(--r-lg);
+  padding: 40px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--tr);
+  margin-bottom: 18px;
+}
+
+.upload-box:hover {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.upload-label { cursor: pointer; display: block; }
+
+.upload-icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+  display: block;
+  color: var(--accent);
+}
+
+.upload-label h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.upload-label p {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.file-info {
+  font-size: 13.5px;
+  color: var(--success);
+  padding: 10px 14px;
+  background: rgba(52,211,153,0.08);
+  border-radius: var(--r-sm);
+  border: 1px solid rgba(52,211,153,0.18);
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 20px;
+  border-radius: var(--r-md);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--tr);
+  border: none;
+  text-decoration: none;
+}
+
+.btn.primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn.primary:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px var(--accent-glow);
+}
+
+.btn.secondary {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-mid);
+  color: var(--text-secondary);
+}
+
+.btn.secondary:hover {
+  border-color: var(--border-bright);
+  color: var(--text-primary);
+}
