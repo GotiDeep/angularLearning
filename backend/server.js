@@ -12,10 +12,12 @@ app.use(express.json());
 const authroutes = require("./routes/authroutes");
 const customerRoutes = require("./routes/customerRoutes");
 const styleRoutes = require("./routes/styleRoutes");
+const permissionRoutes = require("./routes/permissionRoutes"); // ← Naya
 
 app.use("/api",authroutes);
 app.use("/api",customerRoutes);
 app.use("/api",styleRoutes);
+app.use("/api",permissionRoutes); // ← Naya
 
 
 

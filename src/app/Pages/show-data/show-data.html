@@ -18,7 +18,11 @@
     <!-- RIGHT: Actions -->
     <div class="actions-area">
 
-      
+      <button type="button" (click)="permissionManager()" class="action-btn style-btn">
+        <i class="material-icons"></i>
+        Permissions
+      </button>
+
       <!-- Customers -->
       <button (click)="showCustomers()" class="action-btn employee-btn">
         <i class="material-icons">groups</i>
@@ -42,7 +46,7 @@
       </button>
 
       <!-- Add Employee -->
-      <button routerLink="/addemployee" class="action-btn add-btn">
+      <button (click)="addEmployee()" class="action-btn add-btn">
         <i class="material-icons">person_add</i>
         Add Employee
       </button>

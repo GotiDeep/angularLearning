@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ChangeDetectorRef } from '@angular/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { PermissionService } from '../../services/permission'; // ← Naya
 
 
 
@@ -36,7 +37,8 @@ export class StyleListing implements OnInit{
     private toast : ToastrService,
     private detect : ChangeDetectorRef,
     private router : Router,
-    private fb : FormBuilder
+    private fb : FormBuilder,
+    public perm : PermissionService  // ← public → HTML template directly use kar sakta hai
   ){}
 
   ngOnInit(): void {
@@ -51,30 +53,62 @@ export class StyleListing implements OnInit{
     //this.loadParentParameters();
   }
 
-  deleteStyle(id:any){
-    const confirmdelete = confirm('Are You Sure You Want To Delete..');
+  // ─────────────────────────────────────────────────
+  // PERMISSION CHECK + TOAST
+  // Agar permission nahi → toast dikhao
+  // Agar permission hai → actual kaam karo
+  // ─────────────────────────────────────────────────
 
-    if (confirmdelete) {
-      this.http.delete(`${this.apiUrl}/deleteStyle/${id}`).subscribe({
-      next: (res:any) => {
-        if(res.success){
-          this.toast.success(res.message,"success");
-          this.loadAllStyles();
-        }
-      },
-      error: (error) => {
-        console.log("Error deleting style:", error);
-      }
-     });
+  onAddStyle() {
+    if (!this.perm.canWrite('Styles')) {
+      this.toast.warning("Sorry, you don't have permission to Add Style!", "Access Denied 🚫");
+      return;
     }
+    this.router.navigate(['/styleMaster']);
   }
+
+  onImportExcel() {
+    if (!this.perm.canImport('Styles')) {
+      this.toast.warning("Sorry, you don't have permission to Import!", "Access Denied 🚫");
+      return;
+    }
+    this.router.navigate(['/importStyles']);
+  }
+
   editStyle(id:any){
-    console.log("Edited",id);
+    if (!this.perm.canWrite('Styles')) {
+      this.toast.warning("Sorry, you don't have permission to Edit!", "Access Denied 🚫");
+      return;
+    }
     this.router.navigate(['/styleMaster',id]);
   }
 
+  deleteStyle(id:any){
+    if (!this.perm.canDelete('Styles')) {
+      this.toast.warning("Sorry, you don't have permission to Delete!", "Access Denied 🚫");
+      return;
+    }
+    const confirmdelete = confirm('Are You Sure You Want To Delete..');
+    if (confirmdelete) {
+      this.http.delete(`${this.apiUrl}/deleteStyle/${id}`).subscribe({
+        next: (res:any) => {
+          if(res.success){
+            this.toast.success(res.message,"success");
+            this.loadAllStyles();
+          }
+        },
+        error: (error) => {
+          console.log("Error deleting style:", error);
+        }
+      });
+    }
+  }
+
   viewDetails(id: any) { 
-    console.log ("Details",id);
+    if(!this.perm.canView('Styles')){
+        this.toast.warning("Sorry, you don't have permission to View!", "Access Denied 🚫");
+        return;
+    }
     this.router.navigate(['/styleDetails',id]);
   }
 
@@ -94,9 +128,11 @@ export class StyleListing implements OnInit{
   }
 
   Logout() {
+    // Teeno cheezein clear karo → token, user info, permissions
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('permissions');
     this.router.navigate(['/login']);
-
     this.toast.success('Account Logged Out Successfully','Login')
   }
 
@@ -223,7 +259,42 @@ export class StyleListing implements OnInit{
   }
 
   importExcel(){
+    if(!this.perm.canView('Styles')){
+      this.toast.warning("Sorry, you don't have permission to View!", "Access Denied 🚫");
+      this.router.navigate(['/home']);
+      return;
+    }
     this.router.navigate(['/importStyles']);
+  }
+
+  employeesRedirect(){
+    if(!this.perm.canView('Employees')){
+      this.toast.warning("Sorry, you don't have permission to View!", "Access Denied 🚫");
+      this.router.navigate(['/home']);
+      return;
+    }
+
+    this.router.navigate(['/showdata']);
+    
+  }
+
+  customersRedirect(){
+    if(!this.perm.canView('Customers')){
+      this.toast.warning("Sorry, you don't have permission to View!", "Access Denied 🚫");
+      this.router.navigate(['/home']);
+      return;
+    }
+
+    this.router.navigate(['/customers']);
+    
+  }
+
+  permissionManager(){
+    if(!this.perm.canView('Permissions')){
+      this.toast.warning("Sorry, you don't have permission to View Permissions!", "Access Denied 🚫");
+      return;
+    }
+    this.router.navigate(['/permissions']);
   }
     
 }

@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Exportshared } from '../../services/exportshared';
 import { ToastrService } from 'ngx-toastr';
+import { PermissionService } from '../../services/permission';
 
 
 interface Employee {
@@ -45,7 +46,8 @@ export class ShowData implements OnInit {
     private router: Router,
     private cdr: ChangeDetectorRef,
     private eSS: Exportshared,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private perm : PermissionService
   ) {}
 
   ngOnInit(): void {
@@ -84,6 +86,12 @@ export class ShowData implements OnInit {
   // DELETE EMPLOYEE
 
   deleteEmployee(id: number) {
+
+    if(!this.perm.canDelete('Employees')){
+      this.toastr.warning("Sorry, you don't have permission to Delete!", "Access Denied 🚫");
+      return;
+    }
+
     if (confirm('Are you sure want to delete this employee?')) {
       this.http.delete(`${this.apiUrl}/deleteemployee/${id}`).subscribe({
         next: (result: any) => {
@@ -106,8 +114,10 @@ export class ShowData implements OnInit {
   // EDIT EMPLOYEE
 
   editEmployee(emp: Employee) {
-    console.log(emp);
-
+    if(!this.perm.canWrite('Employees')){
+      this.toastr.warning("Sorry, you don't have permission to Edit!", "Access Denied 🚫");
+      return;
+    }
     this.router.navigate(['/editemployee', emp.id]);
   }
 
@@ -127,16 +137,28 @@ export class ShowData implements OnInit {
   }
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('permissions');
+    localStorage.removeItem('user');
     this.router.navigate(['/login']);
 
     this.toastr.success('Account Logged Out Successfully','Login')
   }
 
   importExcel() {
+    if (!this.perm.canImport('Employees')) {
+      this.toastr.warning("Sorry, you don't have permission to Import!", "Access Denied 🚫");
+      return;
+    }
     this.router.navigate(['/import']);
   }
 
   exportExcel() {
+
+    if(!this.perm.canExport('Employees')){
+      this.toastr.warning("Sorry, you don't have permission to Export!", "Access Denied 🚫");
+      return;
+    }
+
     if (this.selectedIds.length == 0 && this.selection == 'Selected') {
       this.toastr.error('Select Data first...');
     } else if (this.selectedIds.length == 0 && this.selection == 'Non Selected') {
@@ -172,22 +194,54 @@ export class ShowData implements OnInit {
   }
 
   showCustomers(){
+    if(!this.perm.canView('Customers')){
+      this.toastr.warning("Sorry, you don't have permission to View!", "Access Denied 🚫");
+      return;
+    }
     this.router.navigate(['/customers'])
   }
 
   showStyles(){
+    if(!this.perm.canView('Style')){
+      this.toastr.warning("Sorry, you don't have permission to Views Styles!", "Access Denied 🚫");
+      return;
+    }
     this.router.navigate(['/styleListing'])
   }
 
   employeeDetails(employeeId:any){
+    if(!this.perm.canView('Employee')){
+      this.toastr.warning("Sorry, you don't have permission to View!", "Access Denied 🚫");
+      return;
+    }
     window.open(`${this.apiUrl}/employeeDetails/${employeeId}`,
       '_blank'
     )
   }
 
   printEmployees(){
+    if(!this.perm.canView('Employees')){
+      this.toastr.warning("Sorry, you don't have permission to Print!", "Access Denied 🚫");
+      return;
+    }
     window.open(`${this.apiUrl}/printEmployees`,
       '_blank'
     )
+  }
+
+  addEmployee(){
+    if(!this.perm.canWrite('Employees')){
+      this.toastr.warning("Sorry, you don't have permission to Create!", "Access Denied 🚫");
+      return;
+    }
+    this.router.navigate(['/addemployee'])
+  }
+
+  permissionManager(){
+    if(!this.perm.canView('Permissions')){
+      this.toastr.warning("Sorry, you don't have permission to View Permissions!", "Access Denied 🚫");
+      return;
+    }
+    this.router.navigate(['/permissions']);
   }
 }

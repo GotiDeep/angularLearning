@@ -14,7 +14,8 @@ const { deleteStyle } = require("../styleControllers/deleteStyles");
 const { updateStyle } = require("../styleControllers/updateStyle");
 const { getId } = require("../styleControllers/getNextId");
 const{ importStyles,previewImportStyles } = require("../styleControllers/importStyles");
-const upload = require('../middleware/upload');
+
+const { getUserPermissions } = require("../styleControllers/getUserPermissions");
 
 
 router.get('/getNextId', getNextId);
@@ -31,5 +32,8 @@ router.put('/updateStyle/:id', updateStyle);
 router.get('/getId', getId);
 router.post('/importStyles', importUpload.single('file') ,importStyles);  
 router.post('/previewImportStyles',importUpload.single('file'),previewImportStyles);
+
+
+router.get('/getUserPermissions', getUserPermissions);
 
 module.exports = router;

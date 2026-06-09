@@ -12,6 +12,7 @@ import { StyleMaster } from './Styles/style-master/style-master';
 import { StyleListing } from './Styles/style-listing/style-listing';
 import { StyleDetails } from './Styles/style-details/style-details';
 import { Importstyles } from './Styles/importstyles/importstyles';
+import { Permissions } from './Pages/permissions/permissions'; // ← Naya
 
 export const routes: Routes = [
     {
@@ -116,5 +117,11 @@ export const routes: Routes = [
         path:'importStyles',
         component:Importstyles,
         canActivate:[authGuard]
+    },
+    {
+        // Permission Management Page (Admin/Manager ke liye)
+        path: 'permissions',
+        component: Permissions,
+        canActivate: [authGuard]
     },
 ];

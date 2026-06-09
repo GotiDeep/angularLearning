@@ -11,7 +11,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideHttpClient(),
-    importProvidersFrom(),
+    importProvidersFrom(BrowserAnimationsModule),
 
     provideToastr({
       positionClass:'toast-top-right',

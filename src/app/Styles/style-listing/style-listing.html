@@ -12,22 +12,29 @@
 
     <div class="actions-area">
 
-      <button type="button" class="action-btn employee-btn" routerLink="/showdata">
+      <button type="button" (click)="permissionManager()" class="action-btn style-btn">
+        <i class="material-icons"></i>
+        Permissions
+      </button>
+
+      <button type="button" class="action-btn employee-btn" (click)="employeesRedirect()">
         <i class="material-icons">badge</i>
         Employees
       </button>
 
-      <button type="button" class="action-btn employee-btn" routerLink="/customers">
+      <button type="button" class="action-btn employee-btn" (click)="customersRedirect()">
         <i class="material-icons">badge</i>
         Customers
       </button>
 
-      <button type="button" class="action-btn import-btn" (click)="importExcel()">
+      <!-- Import button: Permission nahi = toast, hai = navigate -->
+      <button type="button" class="action-btn import-btn" (click)="onImportExcel()">
         <i class="material-icons">cloud_upload</i>
         Import
       </button>
 
-      <button type="button" class="action-btn add-btn" routerLink="/styleMaster">
+      <!-- Add Style button: Permission nahi = toast, hai = navigate -->
+      <button type="button" class="action-btn add-btn" (click)="onAddStyle()">
         <i class="material-icons">add</i>
         Add Style
       </button>
@@ -118,12 +125,17 @@
             </td>
             <td>
               <div class="table-action">
+                <!-- View: Sirf Read permission check -->
                 <button type="button" class="print-btn-row" (click)="viewDetails(style.id)" title="Details">
                   <i class="material-icons">visibility</i>
                 </button>
+
+                <!-- Edit: Permission nahi = toast, hai = navigate -->
                 <button type="button" class="edit-btn-row" (click)="editStyle(style.id)" title="Edit">
                   <i class="material-icons">edit</i>
                 </button>
+
+                <!-- Delete: Permission nahi = toast, hai = delete -->
                 <button type="button" class="delete-btn-row" (click)="deleteStyle(style.id)" title="Delete">
                   <i class="material-icons">delete</i>
                 </button>

@@ -17,12 +17,17 @@
     <!-- RIGHT: Actions -->
     <div class="actions-area">
 
-      <button routerLink="/showdata" class="action-btn employee-btn">
+      <button (click)="permissionManager()" class="action-btn style-btn">
+        <i class="material-icons"></i>
+        Permissions
+      </button>
+
+      <button (click)="showEmployees()" class="action-btn employee-btn">
         <i class="material-icons">badge</i>
         Employees
       </button>
 
-      <button routerLink="/styleListing" class="action-btn style-btn">
+      <button (click)="showStyles()" class="action-btn style-btn">
         <i class="material-icons">style</i>
         Styles
       </button>
