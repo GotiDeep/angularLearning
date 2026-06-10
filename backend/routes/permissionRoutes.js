@@ -1,30 +1,23 @@
 const express = require("express");
 const router = express.Router();
-
-// Middleware: Token verify karega
 const { verifyToken } = require("../middleware/authMiddleware");
 
-// Controller functions
 const {
   getModules,
-  getAllUsers,
-  getUserPermissions,
-  savePermissions,
+  getRoles,
+  getRolePermissions,
+  saveRolePermissions,
+  addEmployee
 } = require("../controller/permissionController");
 
-// ─── ROUTES ───
-// verifyToken → pehle token check hoga, phir controller chalega
+router.get("/permissions/roles", verifyToken, getRoles);
 
-// GET /api/permissions/modules → Sabhi modules ki list
 router.get("/permissions/modules", verifyToken, getModules);
 
-// GET /api/permissions/users → Sabhi users ki list (Admin/Manager ke liye)
-router.get("/permissions/users", verifyToken, getAllUsers);
+router.get("/permissions/role/:roleId", verifyToken, getRolePermissions);
 
-// GET /api/permissions/user/:userId → Ek user ki permissions
-router.get("/permissions/user/:userId", verifyToken, getUserPermissions);
+router.post("/permissions/save-role", verifyToken, saveRolePermissions);
 
-// POST /api/permissions/save → Permissions save karo
-router.post("/permissions/save", verifyToken, savePermissions);
+router.post("/permissions/add-employee", verifyToken, addEmployee);
 
 module.exports = router;

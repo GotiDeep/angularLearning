@@ -8,34 +8,44 @@ import { Auth } from '../../services/auth';
 @Component({
   selector: 'app-signup',
   standalone : true,
-  imports: [CommonModule,FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './signup.html',
   styleUrl: './signup.css',
 })
 export class Signup {
 
   users = {
-  username : '',
-  email : '',
-  mobile : '',
-  password : '',
-  confpass : '',
+    username : '',
+    email    : '',
+    mobile   : '',
+    password : '',
+    confpass : '',
   }
 
   constructor(
-    private auth:Auth,
-    private router:Router,
-    private toastr :ToastrService
-  ){}
+    private auth: Auth,
+    private router: Router,
+    private toastr: ToastrService
+  ) {}
 
-  signup(){
-    this.auth.signup(this.users).subscribe((res:any)=>{
-        console.log(res);
-        this.toastr.success('Account Created Successfully...','Success');
-        this.router.navigate(['/showdata']);
-    }, (err) => {
-        console.log(err);
-        this.toastr.error("Signup Failed","Error")
+  signup() {
+    // Frontend pe bhi check karo
+    if (this.users.password !== this.users.confpass) {
+      this.toastr.error('Passwords do not match', 'Error');
+      return;
+    }
+
+    this.auth.signup(this.users).subscribe({
+      next: (res: any) => {
+        this.toastr.success('Account Created! Please login.', 'Success');
+        this.router.navigate(['/login']);  // Signup ke baad login page pe jaao
+      },
+      error: (err) => {
+        // Backend se aaya specific message dikhao
+        const msg = err.error?.message || 'Signup Failed';
+        this.toastr.error(msg, 'Error');
+      }
     });
   }
 }
+

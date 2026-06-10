@@ -13,6 +13,10 @@ const { login, signup } = require('../controller/authcontroller');
 
 const { printEmployees } = require('../controller/printEmployees');
 
+const { sendResetLink } = require('../controller/sendResetLink');
+
+const { resetPassword } = require('../controller/resetPassword');
+
 const {
   addemployee,
   deleteemployee,
@@ -23,6 +27,9 @@ const {
 
 router.post('/signup', signup);
 router.post('/login', login);
+router.post('/sendResetLink', sendResetLink);
+router.post('/resetPassword', resetPassword);
+
 router.get('/showdata', showdata);
 router.get('/employee/:id', getemployee);
 router.post('/addemployee', upload.single('image'), addemployee);

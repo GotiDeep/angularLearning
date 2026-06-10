@@ -1,55 +1,61 @@
 <div class="perm-container">
 
-  <!-- ══ HEADER ══ -->
   <div class="perm-header">
-    <h1>👥 User Permission Management</h1>
-    <p>Assign module-wise permissions to each user</p>
-    <!-- Logout -->
-      <button class="action-btn back-btn" (click)="backtohome()">
-        <i class="material-icons"></i>
-        Back to Home
-      </button>
+    <div class="header-top">
+      <div>
+        <h1>Role Permission Management</h1>
+        <p>Assign module-wise permissions to each role</p>
+      </div>
+      <div class="header-actions">
+        <button class="action-btn mod-btn" (click)="openAddModule()">
+          <span class="material-icons">add_box</span>
+          Add Module
+        </button>
+        <button class="action-btn back-btn" (click)="backtohome()">
+          <span class="material-icons">arrow_back</span>
+          Back to Home
+        </button>
+      </div>
+    </div>
   </div>
 
   <div class="perm-layout">
 
-    <!-- ══ LEFT: USER LIST ══ -->
     <div class="user-panel">
-      <h3>Users</h3>
+      <h3>Roles</h3>
       <div class="user-list">
         <div
-          *ngFor="let user of users"
+          *ngFor="let role of roles"
           class="user-card"
-          [class.active]="selectedUser?.user_id === user.user_id"
-          (click)="configureUser(user)"
+          [class.active]="selectedRole?.role_id === role.role_id"
+          (click)="configureRole(role)"
         >
-          <div class="user-avatar">{{ user.username.charAt(0).toUpperCase() }}</div>
+          <div class="user-avatar">{{ role.role_name.charAt(0) }}</div>
           <div class="user-info">
-            <span class="user-name">{{ user.username }}</span>
-            <span [ngClass]="['user-role', user.role_name.toLowerCase()]">{{ user.role_name }}</span>
+            <span class="user-name">{{ role.role_name }}</span>
+            <span [ngClass]="['user-role', role.role_name.toLowerCase()]">{{ role.is_super_role ? 'Full Access' : 'Limited' }}</span>
           </div>
-          <span class="configure-icon">⚙️</span>
+          <span class="material-icons configure-icon">settings</span>
         </div>
       </div>
     </div>
 
-    <!-- ══ RIGHT: PERMISSION MATRIX ══ -->
     <div class="matrix-panel">
 
-      <!-- Jab koi user select nahi hua ──── -->
-      <div *ngIf="!selectedUser" class="empty-state">
-        <span class="empty-icon">👈</span>
-        <p>Select a user to configure permissions</p>
+      <div *ngIf="!selectedRole" class="empty-state">
+        <span class="material-icons empty-icon">arrow_back</span>
+        <p>Select a role to configure permissions</p>
       </div>
 
-      <!-- Loading ──── -->
-      <div *ngIf="isLoading" class="loading">Loading permissions...</div>
+      <div *ngIf="isLoading" class="loading">
+        <span class="material-icons spin">autorenew</span>
+        Loading permissions...
+      </div>
 
-      <!-- Permission Table ──── -->
-      <div *ngIf="selectedUser && !isLoading">
+      <div *ngIf="selectedRole && !isLoading">
         <div class="matrix-header">
-          <h3>Permissions for: <span class="highlight">{{ selectedUser.username }}</span></h3>
-          <span [ngClass]="['role-badge', selectedUser.role_name.toLowerCase()]">{{ selectedUser.role_name }}</span>
+          <h3>Permissions for: <span class="highlight">{{ selectedRole.role_name }}</span></h3>
+          <span [ngClass]="['role-badge', selectedRole.role_name.toLowerCase()]">{{ selectedRole.is_super_role ? 'Full Access' : 'Limited' }}</span>
         </div>
 
         <table class="perm-table">
@@ -70,42 +76,103 @@
                 <span [ngClass]="['module-category-dot', module.module_category]"></span>
                 {{ module.module_name }}
               </td>
-              <td>
-                <input type="checkbox"
-                  [checked]="getPerm(module.module_id, 'canRead')"
-                  (change)="togglePerm(module.module_id, 'canRead')" />
-              </td>
-              <td>
-                <input type="checkbox"
-                  [checked]="getPerm(module.module_id, 'canWrite')"
-                  (change)="togglePerm(module.module_id, 'canWrite')" />
-              </td>
-              <td>
-                <input type="checkbox"
-                  [checked]="getPerm(module.module_id, 'canDelete')"
-                  (change)="togglePerm(module.module_id, 'canDelete')" />
-              </td>
-              <td>
-                <input type="checkbox"
-                  [checked]="getPerm(module.module_id, 'canExport')"
-                  (change)="togglePerm(module.module_id, 'canExport')" />
-              </td>
-              <td>
-                <input type="checkbox"
-                  [checked]="getPerm(module.module_id, 'canImport')"
-                  (change)="togglePerm(module.module_id, 'canImport')" />
-              </td>
-              <td>
-                <button class="btn-all" (click)="selectAll(module.module_id)">All</button>
-              </td>
+              <td><input type="checkbox" [checked]="getPerm(module.module_id, 'canRead')"   (change)="togglePerm(module.module_id, 'canRead')" /></td>
+              <td><input type="checkbox" [checked]="getPerm(module.module_id, 'canWrite')"  (change)="togglePerm(module.module_id, 'canWrite')" /></td>
+              <td><input type="checkbox" [checked]="getPerm(module.module_id, 'canDelete')" (change)="togglePerm(module.module_id, 'canDelete')" /></td>
+              <td><input type="checkbox" [checked]="getPerm(module.module_id, 'canExport')" (change)="togglePerm(module.module_id, 'canExport')" /></td>
+              <td><input type="checkbox" [checked]="getPerm(module.module_id, 'canImport')" (change)="togglePerm(module.module_id, 'canImport')" /></td>
+              <td><button class="btn-all" (click)="selectAll(module.module_id)">All</button></td>
             </tr>
           </tbody>
         </table>
 
         <div class="action-bar">
-          <button class="btn-save" (click)="savePermissions()">💾 Save Permissions</button>
+          <button class="btn-save" (click)="savePermissions()">
+            <span class="material-icons">save</span>
+            Save Permissions
+          </button>
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showAddEmployeeModal" (click)="closeAddEmployee()">
+  <div class="modal-box" (click)="$event.stopPropagation()">
+
+    <div class="modal-header">
+      <div class="modal-title-group">
+        <span class="material-icons modal-icon emp-icon">person_add</span>
+        <div>
+          <h2>Add New Employee</h2>
+          <p>Fill in the details to create a new user account</p>
+        </div>
+      </div>
+      <button class="modal-close" (click)="closeAddEmployee()">
+        <span class="material-icons">close</span>
+      </button>
+    </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showAddModuleModal" (click)="closeAddModule()">
+  <div class="modal-box" (click)="$event.stopPropagation()">
+
+    <div class="modal-header">
+      <div class="modal-title-group">
+        <span class="material-icons modal-icon mod-icon">add_box</span>
+        <div>
+          <h2>Add New Module</h2>
+          <p>Define a new permission module for the system</p>
+        </div>
+      </div>
+      <button class="modal-close" (click)="closeAddModule()">
+        <span class="material-icons">close</span>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="modal-grid">
+
+        <div class="field full">
+          <label>Module Name <span class="req">*</span></label>
+          <input type="text" [(ngModel)]="newModule.module_name" placeholder="e.g. Inventory Management" />
+        </div>
+
+        <div class="field">
+          <label>Module Category <span class="req">*</span></label>
+          <select [(ngModel)]="newModule.module_category">
+            <option value="" disabled selected>Select Category</option>
+            <option value="business">Business</option>
+            <option value="system">System</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Status</label>
+          <div class="toggle-field">
+            <label class="toggle-switch">
+              <input type="checkbox" [(ngModel)]="newModule.is_active" />
+              <span class="toggle-slider"></span>
+            </label>
+            <span class="toggle-label">{{ newModule.is_active ? 'Active' : 'Inactive' }}</span>
+          </div>
+        </div>
+
+        <div class="field full">
+          <label>Description <span class="muted">(optional)</span></label>
+          <textarea [(ngModel)]="newModule.description" rows="3" placeholder="Brief description of this module..."></textarea>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-cancel" (click)="closeAddModule()">Cancel</button>
+      <button class="btn-submit mod-submit" (click)="saveModule()">
+        <span class="material-icons">add_box</span>
+        Add Module
+      </button>
+    </div>
+
   </div>
 </div>

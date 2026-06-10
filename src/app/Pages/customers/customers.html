@@ -17,36 +17,42 @@
     <!-- RIGHT: Actions -->
     <div class="actions-area">
 
-      <button (click)="permissionManager()" class="action-btn style-btn">
-        <i class="material-icons"></i>
+      <button *ngIf="perm.isAdmin() || perm.isManager()" routerLink="/permissions" class="action-btn style-btn">
+        <i class="material-icons">admin_panel_settings</i>
         Permissions
       </button>
 
-      <button (click)="showEmployees()" class="action-btn employee-btn">
+      <!-- Employees: canRead hone pe -->
+      <button *ngIf="perm.canView('Employees')" routerLink="/showdata" class="action-btn employee-btn">
         <i class="material-icons">badge</i>
         Employees
       </button>
 
-      <button (click)="showStyles()" class="action-btn style-btn">
+      <!-- Styles: canRead hone pe -->
+      <button *ngIf="perm.canView('Styles')" routerLink="/styleListing" class="action-btn style-btn">
         <i class="material-icons">style</i>
         Styles
       </button>
 
-      <button class="action-btn pdf-btn" (click)="printCustomers()">
+      <!-- Print: canRead hone pe -->
+      <button *ngIf="perm.canView('Customers')" class="action-btn pdf-btn" (click)="printCustomers()">
         <i class="material-icons">picture_as_pdf</i>
         Print (PDF)
       </button>
 
-      <button (click)="importExcel()" class="action-btn import-btn">
+      <!-- Import: canImport hone pe -->
+      <button *ngIf="perm.canImport('Customers')" (click)="importExcel()" class="action-btn import-btn">
         <i class="material-icons">cloud_upload</i>
         Upload
       </button>
 
-      <button (click)="addCustomers()" class="action-btn add-btn">
+      <!-- Add Customer: canWrite hone pe -->
+      <button *ngIf="perm.canWrite('Customers')" (click)="addCustomers()" class="action-btn add-btn">
         <i class="material-icons">add</i>
         Add Customer
       </button>
 
+      <!-- Logout: hamesha -->
       <button class="action-btn logout-btn" (click)="logout()">
         <i class="material-icons">logout</i>
         Logout
@@ -72,7 +78,8 @@
         </select>
       </div>
 
-      <button (click)="exportExcel()" class="action-btn export-btn">
+      <!-- Export: canExport hone pe -->
+      <button *ngIf="perm.canExport('Customers')" (click)="exportExcel()" class="action-btn export-btn">
         <i class="material-icons">download</i>
         Export
       </button>
@@ -162,13 +169,16 @@
             <!-- Actions -->
             <td>
               <div class="table-action">
-                <button class="edit-btn-row" (click)="editCustomer(customer.customerId)" title="Edit">
+                <!-- Edit: canWrite hone pe -->
+                <button *ngIf="perm.canWrite('Customers')" class="edit-btn-row" (click)="editCustomer(customer.customerId)" title="Edit">
                   <i class="material-icons">edit</i>
                 </button>
-                <button class="delete-btn-row" (click)="deleteCustomer(customer.customerId)" title="Delete">
+                <!-- Delete: canDelete hone pe -->
+                <button *ngIf="perm.canDelete('Customers')" class="delete-btn-row" (click)="deleteCustomer(customer.customerId)" title="Delete">
                   <i class="material-icons">delete</i>
                 </button>
-                <button class="print-btn-row" (click)="CustomerDetails(customer.customerId)" title="Print">
+                <!-- Print: canRead hone pe -->
+                <button *ngIf="perm.canView('Customers')" class="print-btn-row" (click)="CustomerDetails(customer.customerId)" title="Print">
                   <i class="material-icons">print</i>
                 </button>
               </div>

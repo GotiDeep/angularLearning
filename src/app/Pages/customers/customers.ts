@@ -35,52 +35,28 @@ export class Customers implements AfterViewInit {
     private router: Router,
     private cdr: ChangeDetectorRef,
     private toastr: ToastrService,
-    private perm : PermissionService
+    public perm: PermissionService  // HTML mein perm.isAdmin() use hota hai
   ) {}
 
   ngAfterViewInit(): void {
     this.getCustomers();
   }
 
-  showEmployees(){
-    if(!this.perm.canView('Employees')){
-      this.toastr.warning("Sorry, you don't have permission to View!", "Access Denied 🚫");
-      return;
-    }
-    this.router.navigate(['/showdata']);
-  }
-
-  showStyles(){
-    if(!this.perm.canView('Styles')){
-      this.toastr.warning("Sorry, you don't have permission to View!", "Access Denied 🚫");
-      return;
-    }
-    this.router.navigate(['/styleListing']);
-  }
 
   logout() {
     localStorage.removeItem('token');
-    localStorage.removeItem('users');
+    localStorage.removeItem('user');
     localStorage.removeItem('permissions');
     this.router.navigate(['/login']);
-
     this.toastr.success('Account Logged Out Successfully', 'Login');
   }
 
   importExcel() {
-    if(!this.perm.canImport('Customers')){
-      this.toastr.warning("Sorry, you don't have permission to Import!", "Access Denied 🚫");
-      return;
-    }
     this.router.navigate(['/importCustomers']);
   }
 
   exportExcel() {
 
-    if(!this.perm.canExport('Customers')){
-      this.toastr.warning("Sorry, you don't have permission to Export!", "Access Denied 🚫");
-      return;
-    }
     const exportData = {
       selection: this.selection,
 
@@ -128,10 +104,6 @@ export class Customers implements AfterViewInit {
   }
 
   editCustomer(customerId: any) {
-    if(!this.perm.canWrite('Customers')){
-      this.toastr.warning("Sorry, you don't have permission to Edit!", "Access Denied 🚫");
-      return;
-    }
     this.router.navigate([`/editCustomer/${customerId}`]);
   }
 
@@ -153,10 +125,7 @@ export class Customers implements AfterViewInit {
   }
 
   deleteCustomer(customerId: any) {
-    if(!this.perm.canDelete('Customers')){
-      this.toastr.warning("Sorry, you don't have permission to Delete!", "Access Denied 🚫");
-      return;
-    }
+  
     const confirmdelete = confirm('Are You Sure You Want To Delete..');
 
     if (confirmdelete) {
@@ -170,14 +139,6 @@ export class Customers implements AfterViewInit {
         },
       });
     }
-  }
-
-  addCustomers() {
-    if(!this.perm.canWrite('Customers')){
-      this.toastr.warning("Sorry, you don't have permission to Add!", "Access Denied 🚫");
-      return;
-    }
-    this.router.navigate(['/addcustomers']);
   }
 
   getCustomers() {
@@ -201,35 +162,20 @@ export class Customers implements AfterViewInit {
   }
 
   CustomerDetails(customerId:any){
-
-    if(!this.perm.canView('Customers')){
-      this.toastr.warning("Sorry, you don't have permission to Print!", "Access Denied 🚫");
-      return;
-    }
-
     window.open(`${this.apiUrl}/customerDetails/${customerId}`,
       "_blank"
     );
   }
 
   printCustomers(){
-
-    if(!this.perm.canView('Customers')){
-      this.toastr.warning("Sorry, you don't have permission to Print!", "Access Denied 🚫");
-      return;
-    }
-
     window.open(`${this.apiUrl}/printCustomersDetails`,
       "_blank"
     );
   }
 
-  permissionManager(){
-    if(!this.perm.canView('Permissions')){
-      this.toastr.warning("Sorry, you don't have permission to View Permissions!", "Access Denied 🚫");
-      return;
-    }
-    this.router.navigate(['/permissions']);
+  addCustomers() {
+    this.router.navigate(['/addcustomers']);  // lowercase — routes mein 'addcustomers' hai
   }
+
   
 }

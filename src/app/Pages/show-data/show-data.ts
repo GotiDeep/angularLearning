@@ -32,7 +32,7 @@ interface Employee {
 export class ShowData implements OnInit {
   selectedIds: number[] = [];
   selection = 'All';
-  
+
   employee: Employee[] = [];
 
   selectedEmployees: number[] = [];
@@ -47,8 +47,8 @@ export class ShowData implements OnInit {
     private cdr: ChangeDetectorRef,
     private eSS: Exportshared,
     private toastr: ToastrService,
-    private perm : PermissionService
-  ) {}
+    public perm: PermissionService   // HTML mein *ngIf ke liye public chahiye
+  ) { }
 
   ngOnInit(): void {
     this.getEmployees();
@@ -76,7 +76,7 @@ export class ShowData implements OnInit {
       error: (err) => {
         console.log(err);
 
-        this.toastr.error('Failed To Fetch Data From The Db','Error');
+        this.toastr.error('Failed To Fetch Data From The Db', 'Error');
 
         this.loading = false;
       },
@@ -86,18 +86,12 @@ export class ShowData implements OnInit {
   // DELETE EMPLOYEE
 
   deleteEmployee(id: number) {
-
-    if(!this.perm.canDelete('Employees')){
-      this.toastr.warning("Sorry, you don't have permission to Delete!", "Access Denied 🚫");
-      return;
-    }
-
     if (confirm('Are you sure want to delete this employee?')) {
       this.http.delete(`${this.apiUrl}/deleteemployee/${id}`).subscribe({
         next: (result: any) => {
           console.log(result);
 
-          this.toastr.warning('Toast Is Deleted SuccessFully','Notification')
+          this.toastr.warning('Toast Is Deleted SuccessFully', 'Notification')
 
           this.getEmployees();
         },
@@ -105,7 +99,7 @@ export class ShowData implements OnInit {
         error: (err) => {
           console.log(err);
 
-          this.toastr.error('Delete Error','Error');
+          this.toastr.error('Delete Error', 'Error');
         },
       });
     }
@@ -114,10 +108,6 @@ export class ShowData implements OnInit {
   // EDIT EMPLOYEE
 
   editEmployee(emp: Employee) {
-    if(!this.perm.canWrite('Employees')){
-      this.toastr.warning("Sorry, you don't have permission to Edit!", "Access Denied 🚫");
-      return;
-    }
     this.router.navigate(['/editemployee', emp.id]);
   }
 
@@ -141,20 +131,16 @@ export class ShowData implements OnInit {
     localStorage.removeItem('user');
     this.router.navigate(['/login']);
 
-    this.toastr.success('Account Logged Out Successfully','Login')
+    this.toastr.success('Account Logged Out Successfully', 'Login')
   }
 
   importExcel() {
-    if (!this.perm.canImport('Employees')) {
-      this.toastr.warning("Sorry, you don't have permission to Import!", "Access Denied 🚫");
-      return;
-    }
     this.router.navigate(['/import']);
   }
 
   exportExcel() {
 
-    if(!this.perm.canExport('Employees')){
+    if (!this.perm.canExport('Employees')) {
       this.toastr.warning("Sorry, you don't have permission to Export!", "Access Denied 🚫");
       return;
     }
@@ -164,84 +150,36 @@ export class ShowData implements OnInit {
     } else if (this.selectedIds.length == 0 && this.selection == 'Non Selected') {
       this.toastr.error('Select Data first...');
     } else {
-      
+
     }
     const data = {
-        selection: this.selection,
-        selectedIds: this.selectedIds,
-      };
+      selection: this.selection,
+      selectedIds: this.selectedIds,
+    };
 
-      this.http
-        .post('http://localhost:3000/api/exportexcel', data, {
-          responseType: 'blob',
-        })
-        .subscribe((res: any) => {
-          const blob = new Blob([res], {
-            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-          });
-
-          const url = window.URL.createObjectURL(blob);
-
-          const a = document.createElement('a');
-
-          a.href = url;
-
-          if(a.download = `${this.selection}Employees.xlsx`){
-            this.toastr.success('File Exported Successfully...', 'Export');
-          }
-          a.click();
-        });
+    this.http.post('http://localhost:3000/api/exportexcel', data, { responseType: 'blob' })
+      .subscribe((res: any) => {
+        const blob = new Blob([res], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${this.selection}Employees.xlsx`;  // Assignment, if mein nahi
+        a.click();
+        this.toastr.success('File Exported Successfully...', 'Export');
+      });
   }
 
-  showCustomers(){
-    if(!this.perm.canView('Customers')){
-      this.toastr.warning("Sorry, you don't have permission to View!", "Access Denied 🚫");
-      return;
-    }
-    this.router.navigate(['/customers'])
+  employeeDetails(employeeId: any) {
+    window.open(`${this.apiUrl}/employeeDetails/${employeeId}`, '_blank');
   }
 
-  showStyles(){
-    if(!this.perm.canView('Style')){
-      this.toastr.warning("Sorry, you don't have permission to Views Styles!", "Access Denied 🚫");
-      return;
-    }
-    this.router.navigate(['/styleListing'])
-  }
-
-  employeeDetails(employeeId:any){
-    if(!this.perm.canView('Employee')){
-      this.toastr.warning("Sorry, you don't have permission to View!", "Access Denied 🚫");
-      return;
-    }
-    window.open(`${this.apiUrl}/employeeDetails/${employeeId}`,
-      '_blank'
-    )
-  }
-
-  printEmployees(){
-    if(!this.perm.canView('Employees')){
-      this.toastr.warning("Sorry, you don't have permission to Print!", "Access Denied 🚫");
-      return;
-    }
+  printEmployees() {
     window.open(`${this.apiUrl}/printEmployees`,
       '_blank'
     )
   }
 
-  addEmployee(){
-    if(!this.perm.canWrite('Employees')){
-      this.toastr.warning("Sorry, you don't have permission to Create!", "Access Denied 🚫");
-      return;
-    }
+  addEmployee() {
     this.router.navigate(['/addemployee'])
-  }
-
-  permissionManager(){
-    if(!this.perm.canView('Permissions')){
-      this.toastr.warning("Sorry, you don't have permission to View Permissions!", "Access Denied 🚫");
-      return;
-    }
-    this.router.navigate(['/permissions']);
   }
 }

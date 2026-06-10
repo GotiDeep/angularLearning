@@ -118,10 +118,8 @@ export class StyleMaster implements OnInit {
           const metals = res.data.metals || [];
           const diamonds = res.data.diamonds || [];
 
-          // Find the selected category object (loose equality check)
           const categoryObj = this.categoriesList.find((item: any) => item.param_id == main.category_id);
 
-          // Populate subCategoriesList based on the category
           if (main.category_id) {
             this.subCategoriesList = this.masterDropdownData.filter((item: any) =>
               item.key_param === 'SUB_CATEGORY' && item.parent_id == main.category_id
@@ -130,13 +128,11 @@ export class StyleMaster implements OnInit {
             this.subCategoriesList = [];
           }
 
-          // Find the selected subcategory object (loose equality check)
           const subCategoryObj = this.subCategoriesList.find((item: any) => item.param_id == main.sub_category_id);
 
-          // Find the selected gender object (loose equality check)
           const genderObj = this.genderList.find((item: any) => item.param_id == main.gender_id);
 
-          // Patch the form values
+
           this.styleForm.patchValue({
             styleNumber: main.style_number,
             category: categoryObj || null,
@@ -147,7 +143,6 @@ export class StyleMaster implements OnInit {
             status: main.statuss === 1 ? true : false
           });
 
-          // Set the metal rows and diamond rows
           this.metalRows = metals.length > 0 ? metals : [{ metal: '', kt: '', weight: '' }];
           this.addDiamondRows = diamonds.length > 0 ? diamonds : [{ diamondType: '', shape: '', color: '', clarity: '', size: '', pcs: '', caret: '' }];
 
@@ -323,7 +318,6 @@ export class StyleMaster implements OnInit {
   }
 
   onTypeChange(event: any) {
-    // Event binds whole object context if bindValue is absent
     const param_id = event?.param_id;
     console.log("Selected Param Type ID: ", param_id);
 

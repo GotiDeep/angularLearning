@@ -3,7 +3,7 @@ const dbconnection = require('../config/stylesConnection');
 exports.updateCustomer = async (req, res) => {
   const customerData = {
     customerId: req.params.customerId,
-    customerImage: req.file ? `uploads/media/${req.file.filename}` : '',
+    customerImage: req.file ? `${req.file.filename}` : '',
     customerName: req.body.customerName,
     customerEmail: req.body.customerEmail,
     customerMobile: req.body.customerMobile,

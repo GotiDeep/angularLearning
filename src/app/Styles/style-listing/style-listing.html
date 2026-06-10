@@ -12,33 +12,35 @@
 
     <div class="actions-area">
 
-      <button type="button" (click)="permissionManager()" class="action-btn style-btn">
-        <i class="material-icons"></i>
+      <!-- Permissions: Sirf Admin ko dikhega -->
+      <button *ngIf="perm.isAdmin() || perm.isManager()" type="button" routerLink="/permissions" class="action-btn style-btn">
+        <i class="material-icons">admin_panel_settings</i>
         Permissions
       </button>
 
-      <button type="button" class="action-btn employee-btn" (click)="employeesRedirect()">
+      <!-- Employees: canRead hone pe dikhega -->
+      <button *ngIf="perm.canView('Employees')" type="button" routerLink="/showdata" class="action-btn employee-btn">
         <i class="material-icons">badge</i>
         Employees
       </button>
 
-      <button type="button" class="action-btn employee-btn" (click)="customersRedirect()">
-        <i class="material-icons">badge</i>
+      <!-- Customers: canRead hone pe dikhega -->
+      <button *ngIf="perm.canView('Customers')" type="button" routerLink="/customers" class="action-btn employee-btn">
+        <i class="material-icons">groups</i>
         Customers
       </button>
 
-      <!-- Import button: Permission nahi = toast, hai = navigate -->
-      <button type="button" class="action-btn import-btn" (click)="onImportExcel()">
+      <!-- Import: canImport hone pe dikhega -->
+      <button *ngIf="perm.canImport('Styles')" type="button" class="action-btn import-btn" (click)="onImportExcel()">
         <i class="material-icons">cloud_upload</i>
         Import
       </button>
 
-      <!-- Add Style button: Permission nahi = toast, hai = navigate -->
-      <button type="button" class="action-btn add-btn" (click)="onAddStyle()">
+      <!-- Add Style: canWrite hone pe dikhega -->
+      <button *ngIf="perm.canWrite('Styles')" type="button" class="action-btn add-btn" (click)="onAddStyle()">
         <i class="material-icons">add</i>
         Add Style
       </button>
-
 
       <button type="button" class="action-btn logout-btn" (click)="Logout()">
         <i class="material-icons">logout</i>
@@ -125,18 +127,16 @@
             </td>
             <td>
               <div class="table-action">
-                <!-- View: Sirf Read permission check -->
-                <button type="button" class="print-btn-row" (click)="viewDetails(style.id)" title="Details">
+                <!-- View: canRead hone pe dikhega -->
+                <button *ngIf="perm.canView('Styles')" type="button" class="print-btn-row" (click)="viewDetails(style.id)" title="Details">
                   <i class="material-icons">visibility</i>
                 </button>
-
-                <!-- Edit: Permission nahi = toast, hai = navigate -->
-                <button type="button" class="edit-btn-row" (click)="editStyle(style.id)" title="Edit">
+                <!-- Edit: canWrite hone pe dikhega -->
+                <button *ngIf="perm.canWrite('Styles')" type="button" class="edit-btn-row" (click)="editStyle(style.id)" title="Edit">
                   <i class="material-icons">edit</i>
                 </button>
-
-                <!-- Delete: Permission nahi = toast, hai = delete -->
-                <button type="button" class="delete-btn-row" (click)="deleteStyle(style.id)" title="Delete">
+                <!-- Delete: canDelete hone pe dikhega -->
+                <button *ngIf="perm.canDelete('Styles')" type="button" class="delete-btn-row" (click)="deleteStyle(style.id)" title="Delete">
                   <i class="material-icons">delete</i>
                 </button>
               </div>

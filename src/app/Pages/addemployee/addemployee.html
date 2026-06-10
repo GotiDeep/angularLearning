@@ -147,7 +147,23 @@
           State Required
         </small>
       </label>
+
+      <!-- Role: Sirf Admin ko dikhega -->
+      <label *ngIf="isAdmin">
+        Role
+
+        <select class="form-control" formControlName="role_id">
+          <option value="">Select Role</option>
+          <option *ngFor="let role of rolesList" [value]="role.role_id">{{ role.role_name }}</option>
+        </select>
+
+        <small *ngIf="employeeForm.get('role_id')?.errors?.['required'] && employeeForm.get('role_id')?.touched">
+          Role Required
+        </small>
+      </label>
+
     </div>
+
 
     <!-- Gender -->
     <div class="option-row">
@@ -218,12 +234,13 @@
     <!-- File -->
     <label class="file-field">
       Profile Image
+      <span *ngIf="!isEditMode" style="color:#ef4444"> *</span>
+      <span *ngIf="isEditMode" style="color:#94a3b8; font-size:12px;"> (optional — naya select na karo to purana rahega)</span>
 
       <input type="file" (change)="onFileChange($event)" />
 
       <small *ngIf="employeeForm.get('image')?.value">
-        Selected:
-        {{ employeeForm.get('image')?.value }}
+        Selected: {{ employeeForm.get('image')?.value }}
       </small>
 
       <small

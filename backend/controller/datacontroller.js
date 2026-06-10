@@ -95,43 +95,23 @@ exports.deleteemployee = (req, res) => {
 };
 
 exports.updateemployee = (req, res) => {
-  const { firstname, lastname, email, mobile, address, country, state, gender, hobbies, image } =
-    req.body;
+  // role_id pehle missing tha — add kiya
+  const { firstname, lastname, email, mobile, address, country, state, gender, hobbies, role_id } = req.body;
   const id = req.params.id || req.body.id;
-  const empData = {
-    id,
-    firstname,
-    lastname,
-    email,
-    mobile,
-    address,
-    country,
-    state,
-    gender,
-    hobbies,
-    image
-  }
+
+  // Image: naya file aaya to use karo, nahi to purana rakhna (frontend se current image aayega)
+  const image = req.file ? req.file.filename : (req.body.image || '');
+
+  const empData = { id, firstname, lastname, email, mobile, address, country, state, role_id, gender, hobbies, image };
 
   const sql = "CALL crudEmployee(?)";
 
-  dbcon.query(
-    sql,
-    [JSON.stringify(empData)],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-        return res.status(500).json(err);
-      }
-
-      if (result.affectedRows === 0) {
-        return res.status(404).json({
-          message: 'Employee Not Found',
-        });
-      }
-
-      res.json({
-        message: 'Employee Details Updated Successfully',
-      });
-    },
-  );
+  dbcon.query(sql, [JSON.stringify(empData)], (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json(err);
+    }
+    res.json({ message: 'Employee Details Updated Successfully' });
+  });
 };
+
