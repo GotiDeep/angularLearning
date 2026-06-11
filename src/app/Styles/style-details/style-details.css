@@ -1,85 +1,146 @@
-/* =============================================
-   STYLE DETAILS PAGE
-   ============================================= */
+/* =============================================================
+   STYLE DETAILS PAGE  —  style-details.css
+   ============================================================= */
 
 .details-container {
   min-height: 100vh;
   background: var(--bg-base);
   padding: 28px;
   font-family: 'DM Sans', sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
+/* ── STYLE INFO CARD ── */
 .style-card {
   background: var(--bg-card);
   border: 1px solid var(--border-dim);
   border-radius: var(--r-xl);
-  padding: 30px;
-  margin-bottom: 20px;
+  padding: 26px 28px;
 }
 
 .style-card h2 {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--text-white);
-  margin-bottom: 22px;
+  letter-spacing: -0.2px;
+  margin-bottom: 20px;
   padding-bottom: 14px;
   border-bottom: 1px solid var(--border-dim);
-  letter-spacing: -0.2px;
 }
 
 .info-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 20px;
 }
 
-.info-grid div {
+.info-grid > div {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 6px;
 }
 
 .info-grid label {
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: 600;
   color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.7px;
+  letter-spacing: 0.8px;
 }
 
 .info-grid span {
   font-size: 14.5px;
-  color: var(--text-primary);
   font-weight: 500;
+  color: var(--text-primary);
 }
 
-/* Image grid */
-.images-section {
+/* ── TWO TABLES SIDE BY SIDE ── */
+.tables-wrapper {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 12px;
-  margin-top: 14px;
+  grid-template-columns: 1fr 1.8fr;
+  gap: 18px;
+  align-items: start;
 }
 
-.img-thumb {
-  aspect-ratio: 1;
-  border-radius: var(--r-md);
-  overflow: hidden;
-  background: var(--bg-surface);
+/* ── EACH TABLE CARD ── */
+.detail-card {
+  background: var(--bg-card);
   border: 1px solid var(--border-dim);
+  border-radius: var(--r-xl);
+  overflow: hidden;
 }
 
-.img-thumb img {
+.detail-card h3 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-white);
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-dim);
+  letter-spacing: -0.1px;
+}
+
+/* ── TABLE ── */
+.detail-card table {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  border-collapse: collapse;
 }
 
+.detail-card thead tr {
+  background: var(--bg-surface);
+}
+
+.detail-card th {
+  padding: 10px 14px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-dim);
+  white-space: nowrap;
+}
+
+.detail-card tbody tr {
+  border-bottom: 1px solid var(--border-dim);
+  transition: background 0.15s ease;
+}
+
+.detail-card tbody tr:last-child {
+  border-bottom: none;
+}
+
+.detail-card tbody tr:hover {
+  background: var(--bg-hover);
+}
+
+.detail-card td {
+  padding: 11px 14px;
+  font-size: 13.5px;
+  color: var(--text-primary);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+/* Empty state */
+.detail-card tbody:empty::after,
+.detail-card td.empty-msg {
+  display: block;
+  padding: 28px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-style: italic;
+}
+
+/* ── BACK BUTTON (optional, add in HTML if needed) ── */
 .back-btn {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  padding: 9px 18px;
+  padding: 8px 16px;
   border-radius: var(--r-md);
   background: var(--bg-card);
   border: 1px solid var(--border-mid);
@@ -89,12 +150,30 @@
   font-weight: 500;
   cursor: pointer;
   text-decoration: none;
-  transition: all var(--tr);
-  margin-bottom: 20px;
-  display: inline-flex;
+  transition: all 0.2s ease;
+  align-self: flex-start;
 }
 
 .back-btn:hover {
   border-color: var(--border-bright);
   color: var(--text-primary);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .details-container {
+    padding: 16px;
+  }
+
+  .tables-wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-card table {
+    min-width: 400px;
+  }
+
+  .detail-card {
+    overflow-x: auto;
+  }
 }

@@ -24,6 +24,7 @@ export class StyleListing implements OnInit {
   parameterValues: any[] = [];
   masterData: any[] = [];
   searchText = '';
+  selectedStyles: any[] = [];
 
   constructor(
     private http: HttpClient,
@@ -160,5 +161,30 @@ export class StyleListing implements OnInit {
     }
 
     this.styles = filtered;
+  }
+
+  onStyleSelect(id :any,event : any){
+    if(event.target.checked){
+      this.selectedStyles.push(id);
+    }else{
+      this.selectedStyles = this.selectedStyles.filter((s:any) => s !== id);
+    }
+  }
+
+  Purchase(){
+
+    if (!confirm('Are You Sure You Want To Place This Order?')) return;
+
+    this.http.post<any>(`${this.apiUrl}/completeOrder`,{orderIds:this.selectedStyles}).subscribe({
+      next:(res)=>{
+        this.toast.success(`${res.message}`,"Order Confirmed");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+      },
+      error:(err)=>{
+        this.toast.error(`${err.error.message}`,"Something Missing");
+      }
+    })
   }
 }

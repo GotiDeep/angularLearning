@@ -102,12 +102,16 @@
       <table class="style-table">
         <thead>
           <tr>
+            <th>Select Style</th>
             <th>Style No</th>
             <th>Category</th>
             <th>Sub Category</th>
             <th>Gender</th>
             <th>Title</th>
             <th>Description</th>
+            <th>Metal Amount</th>
+            <th>Diamond Amount</th>
+            <th>Total Amount</th>
             <th>Status</th>
             <th>Action</th>
           </tr>
@@ -115,12 +119,16 @@
 
         <tbody>
           <tr *ngFor="let style of styles">
+            <td><input type="checkbox" class="style-checkbox" (change)="onStyleSelect(style, $event)"></td>
             <td class="style-id">{{ style.style_number }}</td>
             <td>{{ style.category }}</td>
             <td>{{ style.sub_category }}</td>
             <td>{{ style.gender }}</td>
             <td>{{ style.product_title }}</td>
             <td>{{ style.product_description }}</td>
+            <td>{{ style.total_metal_amount}}</td>
+            <td>{{ style.total_diamond_amount}}</td>
+            <td>{{ style.grand_total_amount}}</td>
             <td>
               <span class="status-badge active" *ngIf="style.statuss == 1">Active</span>
               <span class="status-badge inactive" *ngIf="style.statuss == 0">Inactive</span>
@@ -154,9 +162,7 @@
       <p>Showing 1 to {{ styles.length || 0 }} entries</p>
       <div class="pagination">
         <button type="button">&lt;</button>
-        <button type="button" class="active">1</button>
-        <button type="button">2</button>
-        <button type="button">3</button>
+        <button type="button" class="active" (click)="Purchase()">Purchase</button>
         <button type="button">&gt;</button>
       </div>
     </div>

@@ -625,6 +625,8 @@
   border-color: var(--accent);
   color: #fff;
   font-weight: 600;
+  width: fit-content;
+  padding: 7px;
 }
 
 /* ---- ng-select overrides ---- */

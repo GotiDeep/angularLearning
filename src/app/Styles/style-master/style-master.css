@@ -399,7 +399,7 @@ form {
 
 .table-head {
   display: grid;
-  grid-template-columns: 48px 1fr 1fr 1fr;
+  grid-template-columns: 48px 1fr 1fr 1fr 1fr;
   background: var(--bg-surface);
   border-bottom: 1px solid var(--border-dim);
   padding: 0;
@@ -416,7 +416,7 @@ form {
 
 .table-row {
   display: grid;
-  grid-template-columns: 48px 1fr 1fr 1fr;
+  grid-template-columns: 48px 1fr 1fr 1fr 1fr;
   align-items: center;
   border-bottom: 1px solid var(--border-dim);
   padding: 8px 0;
@@ -507,7 +507,7 @@ form {
 
 .d-table-head {
   display: grid;
-  grid-template-columns: 48px 1.4fr 1fr 1fr 1fr 1fr 80px 90px;
+  grid-template-columns: 48px 1.4fr 1fr 1fr 1fr 1fr 0.8fr 80px 110px;
   background: var(--bg-surface);
   border-bottom: 1px solid var(--border-dim);
 }
@@ -524,7 +524,7 @@ form {
 
 .d-table-row {
   display: grid;
-  grid-template-columns: 48px 1.4fr 1fr 1fr 1fr 1fr 80px 90px;
+  grid-template-columns: 48px 1.4fr 1fr 1fr 1fr 1fr 1fr 80px 110px;
   align-items: center;
   border-bottom: 1px solid var(--border-dim);
   padding: 8px 0;

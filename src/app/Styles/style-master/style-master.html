@@ -104,6 +104,7 @@
           <div>Metal</div>
           <div>Metal KT</div>
           <div>Weight (gm)</div>
+          <div>Amount</div>
         </div>
 
         <div class="table-row" *ngFor="let row of metalRows; let i = index">
@@ -152,6 +153,14 @@
               [ngClass]="{'invalid-field': weightRef.invalid && (weightRef.touched || styleForm.touched)}">
             <span *ngIf="weightRef.invalid && (weightRef.touched || styleForm.touched)" class="error-text"></span>
           </div>
+
+          <div class="field-validation-wrapper">
+            <input type="number" placeholder="Amount" [(ngModel)]="row.amount" [ngModelOptions]="{standalone: true}"
+              required
+              #weightRef="ngModel"
+              [ngClass]="{'invalid-field': weightRef.invalid && (weightRef.touched || styleForm.touched)}">
+            <span *ngIf="weightRef.invalid && (weightRef.touched || styleForm.touched)" class="error-text"></span>
+          </div>
         </div>
       </div>
     </div>
@@ -174,6 +183,7 @@
           <div>Size</div>
           <div>Pcs</div>
           <div>Caret</div>
+          <div>Amount</div>
         </div>
 
         <div *ngIf="addDiamondRows.length === 0" class="no-diamond-message">
@@ -249,8 +259,9 @@
             [clearable]="false">
           </ng-select>
 
-          <input type="number" placeholder="0" [(ngModel)]="row.pcs" [ngModelOptions]="{standalone: true}" >
-          <input type="number" placeholder="0" [(ngModel)]="row.caret" [ngModelOptions]="{standalone: true}">
+          <input type="number" placeholder="Pcs" [(ngModel)]="row.pcs" [ngModelOptions]="{standalone: true}" >
+          <input type="number" placeholder="Carets" [(ngModel)]="row.caret" [ngModelOptions]="{standalone: true}">
+          <input type="number" placeholder="Amount" [(ngModel)]="row.amount" [ngModelOptions]="{standalone: true}">
         </div>
       </div>
 

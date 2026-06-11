@@ -47,8 +47,8 @@ export class StyleMaster implements OnInit {
   diamondClarityList: any[] = [];
   diamondSizeList: any[] = [];
 
-  metalRows = [{ metal: '', kt: '', weight: '' }];
-  addDiamondRows = [{ diamondType: '', shape: '', color: '', clarity: '', size: '', pcs: '', caret: '' }];
+  metalRows = [{ metal: '', kt: '', weight: '', amount: '' }];
+  addDiamondRows = [{ diamondType: '', shape: '', color: '', clarity: '', size: '', pcs: '', caret: '', amount: '' }];
 
   constructor(
     private fb: FormBuilder,
@@ -103,8 +103,8 @@ export class StyleMaster implements OnInit {
           productDescription: '',
           status: true
         });
-        this.metalRows = [{ metal: '', kt: '', weight: '' }];
-        this.addDiamondRows = [{ diamondType: '', shape: '', color: '', clarity: '', size: '', pcs: '', caret: '' }];
+        this.metalRows = [{ metal: '', kt: '', weight: '', amount: '' }];
+        this.addDiamondRows = [{ diamondType: '', shape: '', color: '', clarity: '', size: '', pcs: '', caret: '', amount: '' }];
         this.getNextId();
       }
     });
@@ -143,8 +143,8 @@ export class StyleMaster implements OnInit {
             status: main.statuss === 1 ? true : false
           });
 
-          this.metalRows = metals.length > 0 ? metals : [{ metal: '', kt: '', weight: '' }];
-          this.addDiamondRows = diamonds.length > 0 ? diamonds : [{ diamondType: '', shape: '', color: '', clarity: '', size: '', pcs: '', caret: '' }];
+          this.metalRows = metals.length > 0 ? metals : [{ metal: '', kt: '', weight: '',amount:'' }];
+          this.addDiamondRows = diamonds.length > 0 ? diamonds : [{ diamondType: '', shape: '', color: '', clarity: '', size: '', pcs: '', caret: '',amount:'' }];
 
           this.detect.detectChanges();
         }
@@ -159,8 +159,7 @@ export class StyleMaster implements OnInit {
 
     if (this.addDiamondRows.length > 0) {
     const invalidDiamondRow = this.addDiamondRows.find(row =>
-      !row.diamondType || !row.shape || !row.color || !row.clarity || !row.size || !row.pcs || !row.caret
-    );
+      !row.diamondType || !row.shape || !row.color || !row.clarity || !row.size || !row.pcs || !row.caret || !row.amount || row.amount.toString().trim() === '');
     if (invalidDiamondRow) {
       this.toast.error('Please fill all Diamond Details row fields', 'Validation Error');
       return;
@@ -174,7 +173,7 @@ export class StyleMaster implements OnInit {
 
     for (let i = 0; i < this.metalRows.length; i++) {
       const row = this.metalRows[i];
-      if (!row.metal || !row.kt || !row.weight || row.weight.toString().trim() === '') {
+      if (!row.metal || !row.kt || !row.weight || row.weight.toString().trim() === '' || !row.amount || row.amount.toString().trim() === '' ) {
         this.toast.error(`Please complete all fields in Metal Details at row number ${i + 1}`, 'Validation Error');
         return;
       }
@@ -202,8 +201,8 @@ export class StyleMaster implements OnInit {
         if(res.success){
           this.toast.success(res.message, 'Success');
           this.styleForm.reset();
-          this.metalRows = [{ metal: '', kt: '', weight: '' }];
-          this.addDiamondRows = [{ diamondType: '', shape: '', color: '', clarity: '', size: '', pcs: '', caret: '' }];
+          this.metalRows = [{ metal: '', kt: '', weight: '', amount: '' }];
+          this.addDiamondRows = [{ diamondType: '', shape: '', color: '', clarity: '', size: '', pcs: '', caret: '', amount: '' }];
           if (!this.isEditMode) {
             this.getNextId();
           }
@@ -220,7 +219,7 @@ export class StyleMaster implements OnInit {
   }
 
   addNewRow() {
-    this.metalRows.push({ metal: '', kt: '', weight: '' });
+    this.metalRows.push({ metal: '', kt: '', weight: '', amount: '' });
   }
 
   deleteRow(index: any) {
@@ -228,7 +227,7 @@ export class StyleMaster implements OnInit {
       this.metalRows.splice(index, 1);
       this.toast.warning('Row removed from list', 'Delete');
     } else {
-      this.metalRows = [{ metal: '', kt: '', weight: '' }];
+      this.metalRows = [{ metal: '', kt: '', weight: '', amount: '' }];
       this.toast.info('You need at least one metal row', 'Info');
     }
   }
@@ -266,7 +265,8 @@ export class StyleMaster implements OnInit {
       clarity: '', 
       size: '', 
       pcs: '', 
-      caret: '' 
+      caret: '',
+      amount: ''
     });
   }
 

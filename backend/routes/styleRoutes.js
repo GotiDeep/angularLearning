@@ -16,6 +16,7 @@ const { getId } = require("../styleControllers/getNextId");
 const{ importStyles,previewImportStyles } = require("../styleControllers/importStyles");
 
 const { getUserPermissions } = require("../styleControllers/getUserPermissions");
+const { completeOrder } = require("../styleControllers/completeOrder");
 
 
 router.get('/getNextId', getNextId);
@@ -35,5 +36,7 @@ router.post('/previewImportStyles',importUpload.single('file'),previewImportStyl
 
 
 router.get('/getUserPermissions', getUserPermissions);
+
+router.post('/completeOrder', completeOrder);
 
 module.exports = router;
